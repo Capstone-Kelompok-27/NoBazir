@@ -66,7 +66,7 @@ export const authRouter = createTRPCRouter({
       const existingUser = await db
         .select()
         .from(users)
-        .where(eq(userId, users.id));
+        .where(eq(users.id, userId));
 
       if (existingUser.length === 0) {
         throw new Error("User not found");
@@ -98,7 +98,7 @@ export const authRouter = createTRPCRouter({
       const existingUser = await db
         .select()
         .from(users)
-        .where(eq(userId, users.id));
+        .where(eq(users.id, userId));
 
       if (existingUser.length === 0) {
         throw new Error("User not found");
