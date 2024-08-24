@@ -7,6 +7,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        montserrat: ['Montserrat', 'sans-serif'],
+        'source-sans': ['Source Sans Pro', 'sans-serif'],
       },
     },
   },
