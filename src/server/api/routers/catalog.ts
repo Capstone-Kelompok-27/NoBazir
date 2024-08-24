@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { eq, ilike, lte, and, gte } from "drizzle-orm";
+import { eq, ilike, lte, and, gte, asc, desc } from "drizzle-orm";
 
 import { db } from "@/server/db";
 
@@ -55,5 +55,14 @@ export const catalogRouter = createTRPCRouter({
             lte(products.price, input.minPrice),
           ),
         );
+    }),
+  getProductSortedByPrice: publicProcedure
+    .input(z.enum(["asc", "desc"]))
+    .query(async ({ input: param }) => {
+      if (param === "asc") {
+        return await db.select().from(products).orderBy(asc(products.price));
+      } else {
+        return await db.select().from(products).orderBy(desc(products.price));
+      }
     }),
 });
