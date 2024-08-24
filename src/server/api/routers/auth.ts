@@ -23,7 +23,6 @@ export const authRouter = createTRPCRouter({
     .input(
       z.object({
         email: z.string().email(),
-        password: z.string().min(8),
         role: z.enum(["customer", "merchant", "admin"]).default("customer"),
       }),
     )
@@ -38,31 +37,31 @@ export const authRouter = createTRPCRouter({
         .returning();
       return newUser;
     }),
-  editUser: protectedProcedure
-    .input(
-      z.object({
-        userId: z.string().uuid(),
-        email: z.string().email().optional(),
-        password: z.string().min(8).optional(),
-        role: z.enum(["customer", "merchant", "admin"]).optional(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const {userId, email, role} = input;
+  // updateUser: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       userId: z.string().uuid(),
+  //       email: z.string().email().optional(),
+  //       password: z.string().min(8).optional(),
+  //       role: z.enum(["customer", "merchant", "admin"]).optional(),
+  //     }),
+  //   )
+  //   .mutation(async ({ input }) => {
+  //     const {userId, email, role} = input;
 
-      // todo: fix type safety
-      // const updateFields= {};
-      // if (email) updateFields.email = email;
-      // if (role) updateFields.role = role;
+  //     // todo: fix type safety
+  //     // const updateFields= {};
+  //     // if (email) updateFields.email = email;
+  //     // if (role) updateFields.role = role;
 
-      const updatedUser = await db
-        .update(users)
-        .set(updateFields) // on-going fix
-        .where(eq(users.id, userId))
-        .returning();
+  //     const updatedUser = await db
+  //       .update(users)
+  //       .set(updateFields) // on-going fix
+  //       .where(eq(users.id, userId))
+  //       .returning();
       
-      return updatedUser;
-    }),
+  //     return updatedUser;
+  //   }),
   deleteUser: protectedProcedure
     .input(z.string().uuid())
     .mutation(async ({ input }) => {

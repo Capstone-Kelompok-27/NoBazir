@@ -14,7 +14,9 @@ import {
   sessions,
   users,
   verificationTokens,
+  type UserRole,
 } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -27,7 +29,7 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
@@ -44,13 +46,28 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    async signIn({ account }) {
+      if (account?.provider === "google") {
+        return true;
+      }
+      return false;
+    },
+
+    async session({ session, user }) {
+      const userData = await db
+        .select({ role: users.role })
+        .from(users)
+        .where(eq(users.id, user.id));
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          role: userData[0]?.role ?? null,
+        },
+      };
+    },
   },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
@@ -58,6 +75,10 @@ export const authOptions: NextAuthOptions = {
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
   }) as Adapter,
+  pages: {
+    signIn: "/",
+    error: "/",
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,

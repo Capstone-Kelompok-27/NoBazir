@@ -20,7 +20,10 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `NoBazir_${name}`);
 
+// Variables Type
+export type UserRole = "customer" | "merchant" | "admin" | null;
 
+// Authentication
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
     .notNull()
@@ -33,9 +36,7 @@ export const users = createTable("user", {
     withTimezone: true,
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
-  role: varchar("role", { enum: ["customer", "merchant", "admin"] }).default(
-    "customer",
-  ),
+  role: varchar("role", { enum: ["customer", "merchant", "admin"] }),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
