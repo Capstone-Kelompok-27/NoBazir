@@ -46,4 +46,20 @@ export const catalogRouter = createTRPCRouter({
         .from(products)
         .where(lte(products.price, maxPrice));
     }),
+  getProductByID: publicProcedure
+    .input(z.string())
+    .query(async ({ input: productId }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.id, productId));
+    }),
+  getProductByMerchantID: publicProcedure
+    .input(z.string())
+    .query(async ({ input: merchantId }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.createdByMerchantId, merchantId));
+    })
 });
