@@ -28,7 +28,7 @@ export const authRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      const { email, password, role } = input;
+      const { email, role } = input;
       const newUser = await db
         .insert(users)
         .values({
@@ -51,13 +51,13 @@ export const authRouter = createTRPCRouter({
       const {userId, email, role} = input;
 
       // todo: fix type safety
-      const updateFields= {};
-      if (email) updateFields.email = email;
-      if (role) updateFields.role = role;
+      // const updateFields= {};
+      // if (email) updateFields.email = email;
+      // if (role) updateFields.role = role;
 
       const updatedUser = await db
         .update(users)
-        .set(updateFields)
+        .set(updateFields) // on-going fix
         .where(eq(users.id, userId))
         .returning();
       
