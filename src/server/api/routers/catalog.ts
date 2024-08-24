@@ -12,12 +12,12 @@ import { db } from "@/server/db";
 
 import { merchants, products } from "@/server/db/schema";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { storage } from "@/config/firebase.config";
 
 export const catalogRouter = createTRPCRouter({
   getAllProducts: publicProcedure.query(async () => {
     return await db.select().from(products);
   }),
-
 
   getProductByName: publicProcedure
     .input(z.string())
@@ -28,7 +28,6 @@ export const catalogRouter = createTRPCRouter({
         .where(ilike(products.productName, productName));
     }),
 
-
   getProductByType: publicProcedure
     .input(z.string())
     .query(async ({ input: productType }) => {
@@ -38,11 +37,9 @@ export const catalogRouter = createTRPCRouter({
         .where(eq(products.productType, productType));
     }),
 
-
   getProductByLikeCount: publicProcedure.query(async () => {
     return await db.select().from(products).orderBy(desc(products.likeCount));
   }),
-
 
   getProductSortedByExpireDate: publicProcedure
     .input(z.enum(["asc", "desc"]))
@@ -59,7 +56,6 @@ export const catalogRouter = createTRPCRouter({
           .orderBy(desc(products.expireDate));
       }
     }),
-
 
   getProductByPriceRange: publicProcedure
     .input(
@@ -80,7 +76,6 @@ export const catalogRouter = createTRPCRouter({
         );
     }),
 
-
   getProductSortedByPrice: publicProcedure
     .input(z.enum(["asc", "desc"]))
     .query(async ({ input: param }) => {
@@ -90,7 +85,6 @@ export const catalogRouter = createTRPCRouter({
         return await db.select().from(products).orderBy(desc(products.price));
       }
     }),
-
 
   createProduct: publicProcedure
     .input(
@@ -124,32 +118,43 @@ export const catalogRouter = createTRPCRouter({
       return createdProduct;
     }),
 
-    
   createProductPictureUrl: publicProcedure
-    .input(z.object({
-      file: z.instanceof(File),
-    }))
+    .input(
+      z.object({
+        name: z.string(),
+        type: z.string(),
+        base64Data: z.string(),
+      }),
+    )
     .output(z.string().url())
     .mutation(async ({ input }) => {
-      const storage = getStorage();
-      const storageRef = ref(storage, `${input.file.name}-${Date.now()}`);
+      const { name, type, base64Data } = input;
 
-      // 'file' comes from the Blob or File API
-      const snapshot = await uploadBytes(storageRef, input.file);
+      // Convert base64 string to Uint8Array
+      const byteString = atob(base64Data.split(",")[1] as string);
+
+      const uint8Array = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+
+      const blob = new Blob([uint8Array], { type });
+      const file = new File([blob], name, { type });
+      const storageRef = ref(storage, `${file.name}-${Date.now()}`);
+
+      // Upload the file to Firebase Storage
+      const snapshot = await uploadBytes(storageRef, file);
       const downloadUrl = await getDownloadURL(snapshot.ref);
 
-      return downloadUrl
+      return downloadUrl;
     }),
-  
+
   getProductByID: publicProcedure
     .input(z.string())
     .query(async ({ input: productId }) => {
-      return await db
-        .select()
-        .from(products)
-        .where(eq(products.id, productId));
+      return await db.select().from(products).where(eq(products.id, productId));
     }),
-  
+
   getProductByMerchantID: publicProcedure
     .input(z.string())
     .query(async ({ input: merchantId }) => {
