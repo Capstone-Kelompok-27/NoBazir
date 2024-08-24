@@ -127,7 +127,7 @@ export const merchants = createTable(
       .references(() => users.id)
       .notNull(),
     merchantName: varchar("merchant_name", { length: 255 }).notNull(),
-    location: varchar("location", { length: 255 }).notNull(),
+    location: varchar("location", { length: 255 }),
     merchantType: varchar("merchant_type", { length: 255 }),
     phoneNumber: varchar("phone_tumber", { length: 13 }),
     socialMedia: varchar("social_media", { length: 2048 }),
@@ -208,7 +208,7 @@ export const customers = createTable(
       .references(() => users.id)
       .notNull(),
     username: varchar("username", { length: 255 }).notNull(),
-    location: varchar("location", { length: 255 }).notNull(),
+    location: varchar("location", { length: 255 }),
     coin: integer("coin").notNull().default(0),
     bazirPay: integer("bazirPay").notNull().default(0),
     profilePictureUrl: text("profile_picture_url"),
