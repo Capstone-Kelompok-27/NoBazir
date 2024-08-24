@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { eq, like } from "drizzle-orm";
+import { eq, ilike, lte } from "drizzle-orm";
 
 import { db } from "@/server/db";
 
@@ -18,10 +18,32 @@ export const catalogRouter = createTRPCRouter({
   }),
   getProductByName: publicProcedure
     .input(z.string())
-    .query(async ({ input }) => {
+    .query(async ({ input: productName }) => {
       return await db
         .select()
         .from(products)
-        .where(like(input, products.productName));
+        .where(ilike(products.productName, productName));
+    }),
+  getProductByType: publicProcedure
+    .input(z.string())
+    .query(async ({ input: productType }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.productType, productType));
+    }),
+  getProductByLikeCount: publicProcedure.query(async () => {
+    return await db.select().from(products).orderBy(products.likeCount);
+  }),
+  getProductByExpireDate: publicProcedure.query(async () => {
+    return await db.select().from(products).orderBy(products.expireDate);
+  }),
+  getProductByMaxPrice: publicProcedure
+    .input(z.number())
+    .query(async ({ input: maxPrice }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(lte(products.price, maxPrice));
     }),
 });
