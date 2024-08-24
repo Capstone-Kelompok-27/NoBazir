@@ -6,62 +6,39 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { eq, and, or, like } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import { db } from "@/server/db";
 
-import { users } from "@/server/db/schema";
+import { users, customers, merchants } from "@/server/db/schema";
 
 export const authRouter = createTRPCRouter({
+  // User
   getAll: publicProcedure.query(async () => {
     return await db.select().from(users);
   }),
   getByUserId: publicProcedure.input(z.string()).query(async ({ input }) => {
     return await db.select().from(users).where(eq(users.id, input));
   }),
-  createUser: publicProcedure
+  updateUserRole: publicProcedure
     .input(
       z.object({
-        email: z.string().email(),
-        role: z.enum(["customer", "merchant", "admin"]).default("customer"),
+        id: z.string(),
+        role: z.enum(["customer", "merchant", "admin"]),
       }),
     )
     .mutation(async ({ input }) => {
-      const { email, role } = input;
-      const newUser = await db
-        .insert(users)
-        .values({
-          email,
-          role,
+      const { id, role } = input;
+      const updatedUser = await db
+        .update(users)
+        .set({
+          role: role,
         })
+        .where(eq(users.id, id))
         .returning();
-      return newUser;
+      return updatedUser;
     }),
-  // updateUser: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       userId: z.string().uuid(),
-  //       email: z.string().email().optional(),
-  //       password: z.string().min(8).optional(),
-  //       role: z.enum(["customer", "merchant", "admin"]).optional(),
-  //     }),
-  //   )
-  //   .mutation(async ({ input }) => {
-  //     const {userId, email, role} = input;
 
-  //     // todo: fix type safety
-  //     // const updateFields= {};
-  //     // if (email) updateFields.email = email;
-  //     // if (role) updateFields.role = role;
-
-  //     const updatedUser = await db
-  //       .update(users)
-  //       .set(updateFields) // on-going fix
-  //       .where(eq(users.id, userId))
-  //       .returning();
-      
-  //     return updatedUser;
-  //   }),
   deleteUser: protectedProcedure
     .input(z.string().uuid())
     .mutation(async ({ input }) => {
@@ -71,5 +48,66 @@ export const authRouter = createTRPCRouter({
       await db.delete(users).where(eq(users.id, userId));
 
       return { success: true };
+    }),
+
+  // Customer
+  createCustomer: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        username: z.string(),
+        location: z.string().optional(),
+        profilePictureUrl: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { userId } = input;
+
+      const existingUser = await db
+        .select()
+        .from(users)
+        .where(eq(userId, users.id));
+
+      if (existingUser.length === 0) {
+        throw new Error("User not found");
+      }
+
+      const createdCustomer = await db
+        .insert(customers)
+        .values(input)
+        .returning();
+      return createdCustomer;
+    }),
+
+  // Merchant
+  createMerchant: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        merchantName: z.string(),
+        location: z.string().optional(),
+        merchantType: z.string().optional(),
+        phoneNumber: z.string().optional(),
+        socialMedia: z.string().optional(),
+        profilePictureUrl: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { userId } = input;
+
+      const existingUser = await db
+        .select()
+        .from(users)
+        .where(eq(userId, users.id));
+
+      if (existingUser.length === 0) {
+        throw new Error("User not found");
+      }
+
+      const createdMerchant = await db
+        .insert(merchants)
+        .values(input)
+        .returning();
+      return createdMerchant;
     }),
 });
