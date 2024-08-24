@@ -17,6 +17,8 @@ export const catalogRouter = createTRPCRouter({
   getAllProducts: publicProcedure.query(async () => {
     return await db.select().from(products);
   }),
+
+
   getProductByName: publicProcedure
     .input(z.string())
     .query(async ({ input: productName }) => {
@@ -25,6 +27,8 @@ export const catalogRouter = createTRPCRouter({
         .from(products)
         .where(ilike(products.productName, productName));
     }),
+
+
   getProductByType: publicProcedure
     .input(z.string())
     .query(async ({ input: productType }) => {
@@ -33,9 +37,13 @@ export const catalogRouter = createTRPCRouter({
         .from(products)
         .where(eq(products.productType, productType));
     }),
+
+
   getProductByLikeCount: publicProcedure.query(async () => {
-    return await db.select().from(products).orderBy(products.likeCount);
+    return await db.select().from(products).orderBy(desc(products.likeCount));
   }),
+
+
   getProductSortedByExpireDate: publicProcedure
     .input(z.enum(["asc", "desc"]))
     .query(async ({ input: param }) => {
@@ -51,6 +59,8 @@ export const catalogRouter = createTRPCRouter({
           .orderBy(desc(products.expireDate));
       }
     }),
+
+
   getProductByPriceRange: publicProcedure
     .input(
       z.object({
@@ -64,11 +74,13 @@ export const catalogRouter = createTRPCRouter({
         .from(products)
         .where(
           and(
-            gte(products.price, input.maxPrice),
-            lte(products.price, input.minPrice),
+            lte(products.price, input.maxPrice),
+            gte(products.price, input.minPrice),
           ),
         );
     }),
+
+
   getProductSortedByPrice: publicProcedure
     .input(z.enum(["asc", "desc"]))
     .query(async ({ input: param }) => {
@@ -78,6 +90,7 @@ export const catalogRouter = createTRPCRouter({
         return await db.select().from(products).orderBy(desc(products.price));
       }
     }),
+
 
   createProduct: publicProcedure
     .input(
@@ -111,6 +124,7 @@ export const catalogRouter = createTRPCRouter({
       return createdProduct;
     }),
 
+    
   createProductPictureUrl: publicProcedure
     .input(z.object({
       file: z.instanceof(File),
