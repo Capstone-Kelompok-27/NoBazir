@@ -1,16 +1,21 @@
 "use client";
 
 import { api } from "@/trpc/react";
+import Image from "next/image";
 import React, { useState } from "react";
 
-const Test = () => {
+const TestUlploadImage = () => {
   const { mutateAsync } = api.catalog.createProductPictureUrl.useMutation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    setSelectedFile(file as File);
+    if (file) {
+      setSelectedFile(file);
+    }else{
+      console.log("File is empty")
+    }
   };
 
   const handleUpload = async () => {
@@ -39,9 +44,9 @@ const Test = () => {
       <button onClick={handleUpload} disabled={!selectedFile}>
         Upload
       </button>
-      <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "100%" }} />
+      <Image src={imageUrl} alt="Uploaded" style={{ maxWidth: "100%" }} />
     </div>
   );
 };
 
-export default Test;
+export default TestUlploadImage;
