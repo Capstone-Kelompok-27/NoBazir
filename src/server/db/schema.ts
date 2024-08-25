@@ -168,7 +168,9 @@ export const products = createTable(
     price: integer("price").notNull(),
     expireDate: date("expire_date").notNull(),
     stock: integer("stock").notNull().default(0),
-    pictureUrl: text("picture_url"),
+    pictureUrl: text("picture_url").default(
+      "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
+    ),
     totalCalorie: real("total_calorie"),
     likeCount: integer("like_count").notNull().default(0),
     customerIdLikeList: varchar("customer_id_like_list", { length: 36 }),
