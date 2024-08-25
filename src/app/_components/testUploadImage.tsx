@@ -44,7 +44,8 @@ const TestUlploadImage = () => {
       <button onClick={handleUpload} disabled={!selectedFile}>
         Upload
       </button>
-      <Image src={imageUrl} alt="Uploaded" style={{ maxWidth: "100%" }} />
+      <div>{imageUrl}</div>
+      <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "100%" }} />
     </div>
   );
 };

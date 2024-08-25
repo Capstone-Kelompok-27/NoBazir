@@ -132,9 +132,7 @@ export const merchants = createTable(
     phoneNumber: varchar("phone_tumber", { length: 13 }),
     socialMedia: varchar("social_media", { length: 2048 }),
     profilePictureUrl: text("profile_picture_url"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
@@ -157,24 +155,26 @@ export const products = createTable(
   "product",
   {
     id: varchar("id", { length: 255 })
-      .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => crypto.randomUUID())
+      .notNull(),
     createdByMerchantId: varchar("created_by_merchant_id", { length: 255 })
       .references(() => merchants.id)
       .notNull(),
     productName: varchar("product_name", { length: 255 }).notNull(),
     productType: varchar("product_type", { length: 255 }),
-    price: integer("price").notNull(),
-    expireDate: date("expire_date").notNull(),
-    stock: integer("stock").notNull().default(0),
-    pictureUrl: text("picture_url"),
-    totalCalorie: real("total_calorie"),
-    likeCount: integer("like_count").notNull().default(0),
+    price: varchar("price").notNull(),
+    expireDate: varchar("expire_date").notNull(),
+    stock: varchar("stock").notNull().default(0),
+    pictureUrl: text("picture_url").default(
+      "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
+    ),
+    totalCalorie: varchar("total_calorie"),
+    likeCount: varchar("like_count").notNull().default(0),
     customerIdLikeList: varchar("customer_id_like_list", { length: 36 }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).$default(
+      () => new Date(),
+    ),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),

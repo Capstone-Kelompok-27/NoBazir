@@ -1,0 +1,1 @@
+ALTER TABLE "NoBazir_product" ALTER COLUMN "picture_url" SET DEFAULT 'https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96';
