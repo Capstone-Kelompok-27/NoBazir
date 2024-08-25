@@ -2,11 +2,18 @@ import { getServerAuthSession } from "@/server/auth";
 import { HydrateClient } from "@/trpc/server";
 import LoginByRole from "./_components/loginByRole";
 import Logout from "./_components/logout";
+import { redirect } from "next/navigation";
 
 // import TestUlploadImage from "./_components/testUploadImage";
 
 export default async function Home() {
   const session = await getServerAuthSession();
+  if (session?.user.role === "customer") {
+    redirect("/home/customer");
+  }
+  if (session?.user.role === "merchant") {
+    redirect("/home/merchant");
+  }
 
   return (
     <HydrateClient>
