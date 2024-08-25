@@ -1,5 +1,8 @@
-import React from 'react'
-import SearchBar from './components/SearchBar'
+import React from 'react';
+import Navbar from "@/app/_components/Navbar";
+
+const Page = () => {
+  import SearchBar from './components/SearchBar'
 import RecommendCatalog from './components/RecommendCatalog'
 import FoodCatalog from './components/FoodCatalog'
 
@@ -55,7 +58,8 @@ const foodCatalogs = [
 ];
 
 
-const page = () => {
+  const isLoggedIn = true;
+
   return (
     <div className='bg-[#EBF2FA]'>
       <div className='mx-20'>
@@ -81,5 +85,14 @@ const page = () => {
     </div>
   )
 }
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} />
+      <main className="p-4">
+        <h1>LeftOver</h1>
+        <p>This is the leftover page.</p>
+      </main>
+    </div>
+  );
+};
 
-export default page
+export default Page;
