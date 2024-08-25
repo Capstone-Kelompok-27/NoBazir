@@ -6,7 +6,7 @@ import { type Session } from "next-auth";
 import { useRouter } from "next/navigation";
 
 interface LoginByRoleProp {
-  session: Session;
+  session: Session | null;
 }
 
 const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
