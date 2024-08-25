@@ -55,7 +55,10 @@ const foodCatalogs = [
 ];
 
 
-const page = () => {
+const Page = () => {
+  
+  const isLoggedIn = true;
+
   return (
     <div className='bg-[#EBF2FA]'>
       <div className='mx-20'>
@@ -81,5 +84,14 @@ const page = () => {
     </div>
   )
 }
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} />
+      <main className="p-4">
+        <h1>LeftOver</h1>
+        <p>This is the leftover page.</p>
+      </main>
+    </div>
+  );
+};
 
-export default page
+export default Page;
