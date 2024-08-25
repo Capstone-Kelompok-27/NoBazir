@@ -1,0 +1,1 @@
+ALTER TABLE "NoBazir_product" ALTER COLUMN "total_calorie" SET DATA TYPE integer;

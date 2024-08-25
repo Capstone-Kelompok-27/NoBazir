@@ -29,6 +29,41 @@
       "when": 1724596380195,
       "tag": "0003_daily_human_cannonball",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1724601927028,
+      "tag": "0004_melted_vance_astro",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1724602085685,
+      "tag": "0005_damp_wildside",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1724603186642,
+      "tag": "0006_tidy_captain_cross",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1724603526167,
+      "tag": "0007_true_franklin_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1724603570483,
+      "tag": "0008_fat_stellaris",
+      "breakpoints": true
     }
   ]
 }
