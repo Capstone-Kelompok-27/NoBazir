@@ -1,8 +1,8 @@
-import Link from "next/link";
-
-// import { LatestPost } from "@/app/_components/post";
 import { getServerAuthSession } from "@/server/auth";
 import { HydrateClient } from "@/trpc/server";
+import LoginByRole from "./_components/loginByRole";
+import Logout from "./_components/logout";
+
 // import TestUlploadImage from "./_components/testUploadImage";
 
 export default async function Home() {
@@ -11,8 +11,11 @@ export default async function Home() {
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <Link href="/login">Sign-In NOW!</Link>
+        {session?.user.name}
+        <LoginByRole session={session} />
+
         {/* <TestUlploadImage /> */}
+        <Logout />
       </main>
     </HydrateClient>
   );
