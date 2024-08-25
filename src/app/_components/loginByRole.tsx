@@ -5,11 +5,11 @@ import { RoleContext } from "../_context/roleContext";
 import { type Session } from "next-auth";
 import { useRouter } from "next/navigation";
 
-interface LoginByRoleProps {
-  session: Session | null;
+interface LoginByRoleProp {
+  session: Session;
 }
 
-const LoginByRole: React.FC<LoginByRoleProps> = ({ session }) => {
+const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
   const router = useRouter();
   const roleContext = useContext(RoleContext);
   if (!roleContext) {
