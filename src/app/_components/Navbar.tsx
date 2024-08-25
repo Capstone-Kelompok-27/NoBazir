@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { FC } from "react";
-import { FiBell, FiShoppingCart, FiUser } from "react-icons/fi";
 
 interface NavbarProps {
   isLoggedIn: boolean;
@@ -30,13 +29,10 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn }) => {
         {isLoggedIn ? (
           <>
             <button className="p-1 hover:bg-green-700 rounded-full">
-              <FiBell size={22} />
+              <img src="/navbar/cart.svg" alt="Cart" width={22} height={22} />
             </button>
             <button className="p-1 hover:bg-green-700 rounded-full">
-              <FiShoppingCart size={22} />
-            </button>
-            <button className="p-1 hover:bg-green-700 rounded-full">
-              <FiUser size={22} />
+              <img src="/navbar/person.svg" alt="User" width={22} height={22} />
             </button>
           </>
         ) : (
