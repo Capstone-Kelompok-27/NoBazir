@@ -12,7 +12,7 @@ export interface CatalogContextType {
     expireDate: string;
     expireHour: number;
     stock: number;
-    prictureUrl: string;
+    pictureUrl: string;
     totalCalorie?: number | null;
     likeCount: number;
     customerIdLikeList?: string | null;
@@ -53,7 +53,7 @@ export const CatalogContextProvider: React.FC<{ children: ReactNode }> = ({
       expireDate: "2024-12-12",
       expireHour: 23,
       stock: 0,
-      prictureUrl:
+      pictureUrl:
         "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
       totalCalorie: 0,
       likeCount: 0,
