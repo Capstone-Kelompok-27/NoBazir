@@ -12,7 +12,7 @@ export interface CatalogContextType {
     expireDate: string;
     expireHour: number;
     stock: number;
-    pictureUrl: string;
+    pictureUrl: string | null;
     totalCalorie?: number | null;
     likeCount: number;
     customerIdLikeList?: string | null;
@@ -29,7 +29,7 @@ export interface CatalogContextType {
     merchantType?: string | null;
     phoneNumber?: string | null;
     socialMedia?: string | null;
-    profilePictureUrl: string;
+    profilePictureUrl: string | null;
     createdAt: Date;
     updatedAt?: Date | null;
   }[];

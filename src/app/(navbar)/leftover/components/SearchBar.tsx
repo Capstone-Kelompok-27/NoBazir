@@ -36,12 +36,14 @@ const SearchBar = () => {
     setQuery(searchInput);
   };
 
-  const productsByName = api.catalog.getProductByName.useQuery(query);
+  const productsByName = api.catalog.getProductByName.useQuery(query, {
+    enabled: !!query,
+  });
   useEffect(() => {
-    if (productsByName.data) {
+    if (productsByName.data && query !== "") {
       setProducts(productsByName.data);
     }
-  }, [productsByName.data, setProducts]);
+  }, [productsByName.data, setProducts, query]);
 
   return (
     <div className="flex h-[48px] w-1/2 items-start justify-between rounded-lg border-2 border-[#679436] border-opacity-50 bg-[#679436] bg-opacity-[0.28] px-4 py-3">

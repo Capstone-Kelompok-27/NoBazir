@@ -12,7 +12,7 @@ interface FoodCatalogProps {
   expireDate: string;
   expireHour: number;
   stock: number;
-  pictureUrl: string;
+  pictureUrl: string | null;
   totalCalorie?: number | null;
   likeCount: number;
   customerIdLikeList?: string | null;
@@ -22,15 +22,18 @@ interface FoodCatalogProps {
 
 const ProductItem: React.FC<FoodCatalogProps> = (props) => {
   return (
-    <div className="w-1/3">
-      <div className="m-5 flex flex-col rounded-2xl bg-white">
-        <div className="relative h-48 overflow-hidden rounded-t-2xl">
+    <div className="max-w-1/3 w-[425px]">
+      <div className="m-7 flex flex-col gap-2 rounded-2xl bg-white p-5">
+        <div className="relative h-36 overflow-hidden rounded-t-2xl">
           <Image
-            src={props.pictureUrl}
+            src={
+              props.pictureUrl ??
+              "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96"
+            }
             alt="Product Image"
-            className="h-full w-full"
+            className="mx-auto w-fit shrink-0"
             width={500}
-            height={500}
+            height={300}
           />
         </div>
         <div className="mx-2 font-source-sans text-[#679436]">
