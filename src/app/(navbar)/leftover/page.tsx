@@ -6,13 +6,11 @@ import ProductList from "./components/ProductList";
 
 const Page = () => {
   return (
-    <div className="flex w-full flex-col justify-center bg-[#EBF2FA]">
+    <div className="flex w-full flex-col justify-center items-center bg-[#EBF2FA] pt-32">
       <Navbar />
       <RecommendCatalog />
-      <div className="mt-10 flex items-center justify-center">
-        <SearchBar />
-      </div>
-      <ProductList />
+      <SearchBar />
+      {/* <ProductList /> */}
     </div>
   );
 };
