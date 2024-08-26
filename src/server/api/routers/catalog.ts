@@ -41,19 +41,19 @@ export const catalogRouter = createTRPCRouter({
     return await db.select().from(products).orderBy(desc(products.likeCount));
   }),
 
-  getProductSortedByExpireDate: publicProcedure
+  getProductSortedByExpire: publicProcedure
     .input(z.enum(["asc", "desc"]))
     .query(async ({ input: param }) => {
       if (param === "asc") {
         return await db
           .select()
           .from(products)
-          .orderBy(asc(products.expireDate));
+          .orderBy(asc(products.expireDate), asc(products.expireHour));
       } else {
         return await db
           .select()
           .from(products)
-          .orderBy(desc(products.expireDate));
+          .orderBy(desc(products.expireDate), desc(products.expireHour));
       }
     }),
 
@@ -119,6 +119,21 @@ export const catalogRouter = createTRPCRouter({
       return createdProduct;
     }),
 
+  getProductById: publicProcedure
+    .input(z.string())
+    .query(async ({ input: productId }) => {
+      return await db.select().from(products).where(eq(products.id, productId));
+    }),
+
+  getProductByMerchantId: publicProcedure
+    .input(z.string())
+    .query(async ({ input: merchantId }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.createdByMerchantId, merchantId));
+    }),
+
   createProductPictureUrl: publicProcedure
     .input(
       z.object({
@@ -148,20 +163,5 @@ export const catalogRouter = createTRPCRouter({
       const downloadUrl = await getDownloadURL(snapshot.ref);
 
       return downloadUrl;
-    }),
-
-  getProductByID: publicProcedure
-    .input(z.string())
-    .query(async ({ input: productId }) => {
-      return await db.select().from(products).where(eq(products.id, productId));
-    }),
-
-  getProductByMerchantID: publicProcedure
-    .input(z.string())
-    .query(async ({ input: merchantId }) => {
-      return await db
-        .select()
-        .from(products)
-        .where(eq(products.createdByMerchantId, merchantId));
     }),
 });
