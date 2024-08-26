@@ -10,7 +10,7 @@ const Page = () => {
       <Navbar />
       <RecommendCatalog />
       <SearchBar />
-      {/* <ProductList /> */}
+      <ProductList />
     </div>
   );
 };

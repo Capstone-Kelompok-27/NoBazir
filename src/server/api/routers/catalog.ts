@@ -37,9 +37,21 @@ export const catalogRouter = createTRPCRouter({
         .where(eq(products.productType, productType));
     }),
 
-  getProductByLikeCount: publicProcedure.query(async () => {
-    return await db.select().from(products).orderBy(desc(products.likeCount));
-  }),
+  getProductByLikeCount: publicProcedure
+    .input(z.enum(["asc", "desc"]))
+    .query(async ({ input: param }) => {
+      if (param === "asc") {
+        return await db
+          .select()
+          .from(products)
+          .orderBy(asc(products.likeCount));
+      } else {
+        return await db
+          .select()
+          .from(products)
+          .orderBy(desc(products.likeCount));
+      }
+    }),
 
   getProductSortedByExpire: publicProcedure
     .input(z.enum(["asc", "desc"]))
