@@ -1,1 +1,0 @@
-ALTER TABLE "NoBazir_product" ALTER COLUMN "created_at" DROP NOT NULL;

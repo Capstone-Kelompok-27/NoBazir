@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS "NoBazir_customer" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"user_id" varchar NOT NULL,
 	"username" varchar(255) NOT NULL,
-	"location" varchar(255) NOT NULL,
+	"location" varchar(255),
 	"coin" integer DEFAULT 0 NOT NULL,
 	"bazirPay" integer DEFAULT 0 NOT NULL,
 	"profile_picture_url" text,
@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS "NoBazir_merchant" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"user_id" varchar NOT NULL,
 	"merchant_name" varchar(255) NOT NULL,
-	"location" varchar(255) NOT NULL,
+	"location" varchar(255),
 	"merchant_type" varchar(255),
-	"phone_tumber" varchar(13),
+	"phone_number" varchar(13),
 	"social_media" varchar(2048),
-	"profile_picture_url" text,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"profile_picture_url" text DEFAULT 'https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/no-merchant-image.png-1724666448529?alt=media&token=a989466a-2f7c-4ad1-9fa4-afa4dcfe0c61',
+	"created_at" timestamp with time zone DEFAULT now(),
 	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
@@ -57,13 +57,14 @@ CREATE TABLE IF NOT EXISTS "NoBazir_product" (
 	"product_name" varchar(255) NOT NULL,
 	"product_type" varchar(255),
 	"price" integer NOT NULL,
-	"expire_date" date NOT NULL,
+	"expire_date" varchar NOT NULL,
+	"expire_hour" integer DEFAULT 24 NOT NULL,
 	"stock" integer DEFAULT 0 NOT NULL,
-	"picture_url" text,
-	"total_calorie" real,
+	"picture_url" text DEFAULT 'https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96',
+	"total_calorie" integer,
 	"like_count" integer DEFAULT 0 NOT NULL,
 	"customer_id_like_list" varchar(36),
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"created_at" timestamp with time zone DEFAULT '2024-08-26T09:32:49.001Z' NOT NULL,
 	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS "NoBazir_user" (
 	"email" varchar(255) NOT NULL,
 	"email_verified" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 	"image" varchar(255),
-	"role" varchar DEFAULT 'customer'
+	"role" varchar
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "NoBazir_verification_token" (
@@ -152,6 +153,7 @@ CREATE INDEX IF NOT EXISTS "product_name_idx" ON "NoBazir_product" USING btree (
 CREATE INDEX IF NOT EXISTS "product_type_idx" ON "NoBazir_product" USING btree ("product_type");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "price_idx" ON "NoBazir_product" USING btree ("price");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "expire_date_idx" ON "NoBazir_product" USING btree ("expire_date");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "expire_hour_idx" ON "NoBazir_product" USING btree ("expire_hour");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "product_like_count_idx" ON "NoBazir_product" USING btree ("like_count");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "product_customer_id_like_list_idx" ON "NoBazir_product" USING btree ("customer_id_like_list");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "product_created_at_idx" ON "NoBazir_product" USING btree ("created_at");--> statement-breakpoint

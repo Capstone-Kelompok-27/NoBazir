@@ -129,9 +129,11 @@ export const merchants = createTable(
     merchantName: varchar("merchant_name", { length: 255 }).notNull(),
     location: varchar("location", { length: 255 }),
     merchantType: varchar("merchant_type", { length: 255 }),
-    phoneNumber: varchar("phone_tumber", { length: 13 }),
+    phoneNumber: varchar("phone_number", { length: 13 }),
     socialMedia: varchar("social_media", { length: 2048 }),
-    profilePictureUrl: text("profile_picture_url"),
+    profilePictureUrl: text("profile_picture_url").default(
+      "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/no-merchant-image.png-1724666448529?alt=media&token=a989466a-2f7c-4ad1-9fa4-afa4dcfe0c61",
+    ),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
@@ -163,18 +165,19 @@ export const products = createTable(
       .notNull(),
     productName: varchar("product_name", { length: 255 }).notNull(),
     productType: varchar("product_type", { length: 255 }),
-    price: varchar("price").notNull(),
+    price: integer("price").notNull(),
     expireDate: varchar("expire_date").notNull(),
-    stock: varchar("stock").notNull().default(0),
+    expireHour: integer("expire_hour").notNull().default(24),
+    stock: integer("stock").notNull().default(0),
     pictureUrl: text("picture_url").default(
       "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
     ),
-    totalCalorie: varchar("total_calorie"),
-    likeCount: varchar("like_count").notNull().default(0),
+    totalCalorie: integer("total_calorie"),
+    likeCount: integer("like_count").notNull().default(0),
     customerIdLikeList: varchar("customer_id_like_list", { length: 36 }),
-    createdAt: timestamp("created_at", { withTimezone: true }).$default(
-      () => new Date(),
-    ),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
@@ -188,6 +191,7 @@ export const products = createTable(
     productTypeIdx: index("product_type_idx").on(product.productType),
     priceIdx: index("price_idx").on(product.price),
     expireDateIdx: index("expire_date_idx").on(product.expireDate),
+    expireHourIdx: index("expire_hour_idx").on(product.expireHour),
     productLikeCountIdx: index("product_like_count_idx").on(product.likeCount),
     productCustomerIdLikeListIdx: index("product_customer_id_like_list_idx").on(
       product.customerIdLikeList,

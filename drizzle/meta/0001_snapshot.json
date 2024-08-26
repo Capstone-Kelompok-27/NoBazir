@@ -1,6 +1,6 @@
 {
-  "id": "40e126d8-842f-4ad9-a374-ffe171539ea7",
-  "prevId": "8071ac9d-af9d-4659-bf24-e4194fe015b4",
+  "id": "5c050d65-e286-4ff2-8648-33b6c5591be6",
+  "prevId": "c97f6808-ed60-41b2-8451-0a932a31858d",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -316,7 +316,7 @@
           "name": "location",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "merchant_type": {
           "name": "merchant_type",
@@ -324,8 +324,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "phone_tumber": {
-          "name": "phone_tumber",
+        "phone_number": {
+          "name": "phone_number",
           "type": "varchar(13)",
           "primaryKey": false,
           "notNull": false
@@ -340,13 +340,14 @@
           "name": "profile_picture_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/no-merchant-image.png-1724666448529?alt=media&token=a989466a-2f7c-4ad1-9fa4-afa4dcfe0c61'"
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "updated_at": {
@@ -709,9 +710,16 @@
         },
         "expire_date": {
           "name": "expire_date",
-          "type": "date",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
+        },
+        "expire_hour": {
+          "name": "expire_hour",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 24
         },
         "stock": {
           "name": "stock",
@@ -724,11 +732,12 @@
           "name": "picture_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96'"
         },
         "total_calorie": {
           "name": "total_calorie",
-          "type": "real",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -840,6 +849,21 @@
           "columns": [
             {
               "expression": "expire_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "expire_hour_idx": {
+          "name": "expire_hour_idx",
+          "columns": [
+            {
+              "expression": "expire_hour",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
