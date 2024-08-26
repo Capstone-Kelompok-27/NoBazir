@@ -3,11 +3,9 @@ import Navbar from "@/app/_components/Navbar";
 
 const Page = () => {
   
-  const isLoggedIn = true;
-
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       <main className="p-4">
         <h1>About Us</h1>
         <p>This is the About Us page.</p>

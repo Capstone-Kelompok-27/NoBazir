@@ -1,18 +1,15 @@
 import Navbar from "@/app/_components/Navbar";
 import { getServerAuthSession } from "@/server/auth";
 import { HydrateClient } from "@/trpc/server";
-import Logout from "./_components/logout";
+import Logout from "@/app/_components/logout";
 import { redirect } from "next/navigation";
 
-import TestUlploadImage from "./_components/testUploadImage";
+import TestUlploadImage from "@/app/_components/testUploadImage";
 
 export default async function Home() {
   const session = await getServerAuthSession();
-  if (session?.user.role === "customer") {
-    redirect("/leftover");
-  }
-  if (session?.user.role === "merchant") {
-    redirect("/merchant");
+  if (!session) {
+    redirect("/");
   }
 
   return (
