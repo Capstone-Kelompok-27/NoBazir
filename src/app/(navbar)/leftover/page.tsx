@@ -7,7 +7,7 @@ import ProductList from "./components/ProductList";
 const Page = () => {
   return (
     <div className="flex w-full flex-col justify-center bg-[#EBF2FA]">
-      <Navbar isLoggedIn={true} />
+      <Navbar />
       <RecommendCatalog />
       <div className="mt-10 flex items-center justify-center">
         <SearchBar />
