@@ -8,17 +8,32 @@ export interface CatalogContextType {
     createdByMerchantId: string;
     productName: string;
     productType?: string | null;
-    price: string;
+    price: number;
     expireDate: string;
-    stock: string;
-    prictureUrl?: string | null;
-    totalCalorie?: string | null;
-    likeCount: string;
+    expireHour: number;
+    stock: number;
+    prictureUrl: string;
+    totalCalorie?: number | null;
+    likeCount: number;
     customerIdLikeList?: string | null;
-    createdAt?: Date | null;
+    createdAt: Date;
     updatedAt?: Date | null;
   }[];
   setProducts: (value: CatalogContextType["products"]) => void;
+
+  merchants: {
+    id: string;
+    userId: string;
+    merchantName: string;
+    location?: string | null;
+    merchantType?: string | null;
+    phoneNumber?: string | null;
+    socialMedia?: string | null;
+    profilePictureUrl: string;
+    createdAt: Date;
+    updatedAt?: Date | null;
+  }[];
+  setMerchants: (value: CatalogContextType["merchants"]) => void;
 }
 
 export const CatalogContext = createContext<CatalogContextType | undefined>(
@@ -34,21 +49,40 @@ export const CatalogContextProvider: React.FC<{ children: ReactNode }> = ({
       createdByMerchantId: "000000",
       productName: "Product Name",
       productType: null,
-      price: "0",
+      price: 0,
       expireDate: "2024-12-12",
-      stock: "0",
+      expireHour: 23,
+      stock: 0,
       prictureUrl:
         "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
-      totalCalorie: "0",
-      likeCount: "0",
+      totalCalorie: 0,
+      likeCount: 0,
       customerIdLikeList: "",
       createdAt: new Date(1724602793517),
       updatedAt: null,
     },
   ]);
 
+  const [merchants, setMerchants] = useState<CatalogContextType["merchants"]>([
+    {
+      id: "000000",
+      userId: "000000",
+      merchantName: "Merchant Name",
+      location: "Location",
+      merchantType: "Cafe",
+      phoneNumber: "000000",
+      socialMedia: "Social Media",
+      profilePictureUrl:
+        "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/no-merchant-image.png-1724666448529?alt=media&token=a989466a-2f7c-4ad1-9fa4-afa4dcfe0c61",
+      createdAt: new Date(1724602793517),
+      updatedAt: null,
+    },
+  ]);
+
   return (
-    <CatalogContext.Provider value={{ products, setProducts }}>
+    <CatalogContext.Provider
+      value={{ products, setProducts, merchants, setMerchants }}
+    >
       {children}
     </CatalogContext.Provider>
   );
