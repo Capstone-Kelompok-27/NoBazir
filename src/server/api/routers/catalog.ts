@@ -11,7 +11,7 @@ import { eq, ilike, lte, and, gte, asc, desc } from "drizzle-orm";
 import { db } from "@/server/db";
 
 import { merchants, products } from "@/server/db/schema";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import { storage } from "@/config/firebase.config";
 
 export const catalogRouter = createTRPCRouter({
