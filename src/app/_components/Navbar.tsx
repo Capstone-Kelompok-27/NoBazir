@@ -10,7 +10,7 @@ const Navbar = async () => {
   if (session?.user.role === "merchant") {
     return (
       <nav className="fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
-        <div className="flex-1 text-center text-lg font-semibold">
+        <div className="flex-1 text-lg font-semibold">
           Nobazir Seller Center
         </div>
         <div className="flex space-x-4">
