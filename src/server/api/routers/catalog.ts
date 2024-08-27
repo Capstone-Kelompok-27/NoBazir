@@ -98,6 +98,21 @@ export const catalogRouter = createTRPCRouter({
       }
     }),
 
+  getProductById: publicProcedure
+    .input(z.string())
+    .query(async ({ input: productId }) => {
+      return await db.select().from(products).where(eq(products.id, productId));
+    }),
+
+  getProductByMerchantId: publicProcedure
+    .input(z.string())
+    .query(async ({ input: merchantId }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.createdByMerchantId, merchantId));
+    }),
+
   createProduct: publicProcedure
     .input(
       z.object({
@@ -131,19 +146,27 @@ export const catalogRouter = createTRPCRouter({
       return createdProduct;
     }),
 
-  getProductById: publicProcedure
-    .input(z.string())
-    .query(async ({ input: productId }) => {
-      return await db.select().from(products).where(eq(products.id, productId));
-    }),
-
-  getProductByMerchantId: publicProcedure
-    .input(z.string())
-    .query(async ({ input: merchantId }) => {
-      return await db
-        .select()
-        .from(products)
-        .where(eq(products.createdByMerchantId, merchantId));
+  updateProduct: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        productName: z.string().optional(),
+        productType: z.string().optional(),
+        price: z.number().optional(),
+        expireDate: z.string().optional(),
+        expireHour: z.number().optional(),
+        stock: z.number().optional(),
+        pictureUrl: z.string().optional(),
+        totalCalorie: z.number().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const updatedProduct = await db
+        .update(products)
+        .set(input)
+        .where(eq(products.id, input.id))
+        .returning();
+      return updatedProduct;
     }),
 
   createProductPictureUrl: publicProcedure

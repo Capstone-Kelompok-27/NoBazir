@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-[#EBF2FA]">
       <Navbar />
-      <EditProducts />
+      <EditProducts session={session} />
     </main>
   );
 }
