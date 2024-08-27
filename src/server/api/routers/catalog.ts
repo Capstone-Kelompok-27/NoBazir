@@ -101,7 +101,11 @@ export const catalogRouter = createTRPCRouter({
   getProductById: publicProcedure
     .input(z.string())
     .query(async ({ input: productId }) => {
-      return await db.select().from(products).where(eq(products.id, productId));
+      const result = await db
+        .select()
+        .from(products)
+        .where(eq(products.id, productId));
+      return result[0] ?? undefined;
     }),
 
   getProductByMerchantId: publicProcedure
@@ -111,6 +115,15 @@ export const catalogRouter = createTRPCRouter({
         .select()
         .from(products)
         .where(eq(products.createdByMerchantId, merchantId));
+    }),
+
+  getProductIdByMerchantId: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      return await db
+        .select({ id: products.id })
+        .from(products)
+        .where(eq(products.createdByMerchantId, input));
     }),
 
   createProduct: publicProcedure
