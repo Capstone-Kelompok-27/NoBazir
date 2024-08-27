@@ -152,7 +152,8 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
       priceInput !== props.price ||
       stockInput !== props.stock ||
       calorieInput !== props.totalCalorie ||
-      typeInput !== props.productType
+      typeInput !== props.productType ||
+      imageUrl !== props.pictureUrl
     ) {
       if (
         !(props.totalCalorie === null && calorieInput === undefined) ||

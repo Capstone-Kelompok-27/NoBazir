@@ -5,6 +5,8 @@ import ProductItemEdit from "./ProductItemEdit";
 import { CatalogContext } from "@/app/_context/catalogContext";
 import { api } from "@/trpc/react";
 import { Session } from "next-auth";
+import Image from "next/image";
+import addProductIcon from "public/merchant/add-product-icon.png";
 
 interface EditProductsProp {
   session: Session;
@@ -47,7 +49,16 @@ const EditProducts: React.FC<EditProductsProp> = ({ session }) => {
           <ProductItemEdit key={item.id} {...item} />
         ))}
       </div>
-      
+      <div className="flex w-full items-center justify-center">
+        <button className="flex items-center justify-center m-5">
+          <Image
+            src={addProductIcon}
+            alt="Add Product Icon"
+            width={42}
+            height={42}
+          />
+        </button>
+      </div>
     </div>
   );
 };
