@@ -47,6 +47,7 @@ const EditProducts: React.FC<EditProductsProp> = ({ session }) => {
           <ProductItemEdit key={item.id} {...item} />
         ))}
       </div>
+      
     </div>
   );
 };
