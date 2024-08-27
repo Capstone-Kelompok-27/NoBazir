@@ -182,6 +182,7 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
       totalCalorie: calorieInput,
       pictureUrl: imageUrl,
     });
+    window.location.reload();
   };
 
   return (
