@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1724483964477,
-      "tag": "0000_fresh_sunspot",
+      "when": 1724666737520,
+      "tag": "0000_kind_dust",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1724493653667,
-      "tag": "0001_pale_reavers",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1724494555904,
-      "tag": "0002_left_vermin",
+      "when": 1724667650946,
+      "tag": "0001_lazy_joystick",
       "breakpoints": true
     }
   ]

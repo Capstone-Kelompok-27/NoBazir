@@ -6,7 +6,7 @@ import LoginByRole from "./_components/loginByRole";
 import Logout from "./_components/logout";
 import { redirect } from "next/navigation";
 
-// import TestUlploadImage from "./_components/testUploadImage";
+import TestUlploadImage from "./_components/testUploadImage";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -24,7 +24,7 @@ export default async function Home() {
         {session?.user.name}
         <LoginByRole session={session} />
 
-        {/* <TestUlploadImage /> */}
+        <TestUlploadImage />
         <Logout />
       </main>
     </HydrateClient>
