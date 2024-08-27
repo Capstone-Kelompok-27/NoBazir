@@ -5,13 +5,14 @@ import ProductItem from "./ProductItem";
 import { api } from "@/trpc/react";
 import { Session } from "next-auth";
 import { CatalogContext } from "@/app/_context/catalogContext";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface ProductListProp {
   session: Session;
 }
 
 const ProductList: React.FC<ProductListProp> = ({ session }) => {
+  const router = useRouter();
   const catalogContext = useContext(CatalogContext);
   if (!catalogContext) {
     throw new Error(
@@ -39,7 +40,7 @@ const ProductList: React.FC<ProductListProp> = ({ session }) => {
   }, [setProducts, productByMerchantId.data]);
 
   const handleEditOnClick = () => {
-    redirect("/merchant/edit-products");
+    router.push("/merchant/edit-products");
   };
 
   return (

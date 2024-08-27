@@ -22,7 +22,7 @@ interface FoodCatalogProps {
 
 const ProductItem: React.FC<FoodCatalogProps> = (props) => {
   return (
-    <div className="max-w-1/3 w-[425px]">
+    <div className="max-w-1/3 flex w-[425px]">
       <div className="m-7 flex flex-col gap-2 rounded-2xl bg-white p-5">
         <div className="relative h-36 overflow-hidden rounded-t-2xl">
           <Image
