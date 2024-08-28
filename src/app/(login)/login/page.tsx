@@ -19,8 +19,9 @@ const Page = () => {
   }
 
   return (
+    <div className="bg-[#EBF2FA]">
     <div className="flex flex-row">
-      <div className="h-screen w-1/2 border-2 bg-[#EBF2FA]">
+      <div className="h-screen w-1/2">
         <div className="mt-32 flex flex-col items-center justify-center text-[#679436]">
           <h1 className="font-montserrat text-[38px] font-bold">
             Welcome to NoBazir
@@ -35,63 +36,31 @@ const Page = () => {
           <div className="flex flex-col justify-center gap-4">
             <button
               onClick={() => signIn("google", { callbackUrl: `/login/${role}` })}
-              className="flex w-full max-w-xs flex-row rounded-3xl border-2 border-[#679436] p-2"
-            >
+              className="flex w-full max-w-xs flex-row rounded-3xl border-2 border-[#679436] p-2">
               <Image
                 src={"/login/google.svg"}
                 alt=""
                 width={24}
                 height={48}
-                className="mx-4"
-              />
+                className="mx-4"/>
 
-              <h1 className="relative font-source-sans text-[20px] font-semibold">
+              <h1 className="relative font-source-sans text-[20px] mx-4 font-semibold">
                 Log in with Google
               </h1>
             </button>
-
-            <div className="flex w-full max-w-xs flex-row rounded-3xl border-2 border-[#679436] p-2">
-              <Image
-                src={"/login/facebook.svg"}
-                alt=""
-                width={24}
-                height={48}
-                className="mx-4"
-              />
-              <h1 className="text-center font-source-sans text-[20px] font-semibold">
-                Log in with Facebook
-              </h1>
-            </div>
-            <div className="flex w-full max-w-xs flex-row rounded-3xl border-2 border-[#679436] p-2">
-              <Image
-                src={"/login/apple.svg"}
-                alt=""
-                width={24}
-                height={48}
-                className="mx-4"
-              />
-              <h1 className="text-center font-source-sans text-[20px] font-semibold">
-                Log in with Apple
-              </h1>
-            </div>
-            <div className="flex w-full max-w-xs flex-row rounded-3xl border-2 border-[#679436] p-2">
-              <Image
-                src={"/login/github.svg"}
-                alt=""
-                width={24}
-                height={48}
-                className="mx-4"
-              />
-              <h1 className="text-center font-source-sans text-[20px] font-semibold">
-                Log in with Github
-              </h1>
-            </div>
           </div>
         </div>
       </div>
-      <div className="h-screen w-1/2">
-        <img src="/login/salad.png" className="h-full w-full" alt="salad" />
+      <div className="relative w-1/2">
+      <Image
+        src="/login/salad.png"
+        alt="Merchant"
+        layout="fill"
+        objectFit="cover"
+        className="rounded-l-xl fixed"
+      />
       </div>
+    </div>
     </div>
   );
 };
