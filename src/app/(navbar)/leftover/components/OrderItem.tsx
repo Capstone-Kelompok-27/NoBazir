@@ -70,7 +70,7 @@ const OrderItem = () => {
               <div className="text-[#A5BE00]">Rp{product.price}</div>
               <div className="flex -translate-x-1 items-center justify-center gap-2">
                 <Image
-                  src={MinusCircle}
+                  src={MinusCircle as string}
                   alt="minus-cirle"
                   width={29}
                   height={29}
@@ -82,7 +82,7 @@ const OrderItem = () => {
 
                 <div className="text-[#679436]">{quantity}</div>
                 <Image
-                  src={PlusCircle}
+                  src={PlusCircle as string}
                   alt="plus-circle"
                   width={29}
                   height={29}

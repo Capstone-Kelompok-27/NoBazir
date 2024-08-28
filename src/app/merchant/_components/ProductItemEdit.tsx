@@ -58,7 +58,7 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       reader.onloadend = async () => {
         const base64Data = reader.result as string;
         try {
@@ -70,12 +70,7 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
           resolve(cbImageUrl);
         } catch (error) {
           console.error("Failed to upload image:", error);
-          reject(null);
         }
-      };
-
-      reader.onerror = () => {
-        reject(null);
       };
     });
   };
@@ -179,7 +174,24 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
     } else {
       setDataChanged(false);
     }
-  });
+  }, [
+    nameInput,
+    props.productName,
+    props.expireDate,
+    props.expireHour,
+    props.price,
+    props.stock,
+    props.totalCalorie,
+    props.productType,
+    props.pictureUrl,
+    expireDateInput,
+    expireTimeInput,
+    priceInput,
+    stockInput,
+    calorieInput,
+    typeInput,
+    imageUrl,
+  ]);
 
   // Handle Edit Button On Click
   const editOnClick = async () => {
@@ -193,7 +205,7 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
       price: priceInput,
       stock: stockInput,
       totalCalorie: calorieInput,
-      pictureUrl: uploadedImageUrl || undefined,
+      pictureUrl: uploadedImageUrl ?? undefined,
     });
     window.location.reload();
   };

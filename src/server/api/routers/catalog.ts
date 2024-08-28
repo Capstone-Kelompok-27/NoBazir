@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 import { eq, ilike, lte, and, gte, asc, desc } from "drizzle-orm";
 
@@ -182,8 +178,10 @@ export const catalogRouter = createTRPCRouter({
       return updatedProduct;
     }),
 
-    deleteProduct: publicProcedure.input(z.string()).mutation(async ({input}) => {
-      return await db.delete(products).where(eq(products.id, input))
+  deleteProduct: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      return await db.delete(products).where(eq(products.id, input));
     }),
 
   createProductPictureUrl: publicProcedure
@@ -199,7 +197,7 @@ export const catalogRouter = createTRPCRouter({
       const { name, type, base64Data } = input;
 
       // Convert base64 string to Uint8Array
-      const byteString = atob(base64Data.split(",")[1] as string);
+      const byteString = atob(base64Data.split(",")[1]!);
 
       const uint8Array = new Uint8Array(byteString.length);
       for (let i = 0; i < byteString.length; i++) {
