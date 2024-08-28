@@ -9,7 +9,7 @@ const Navbar = async () => {
   // Merchant
   if (session?.user.role === "merchant") {
     return (
-      <nav className="fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
+      <nav className="shadow-md fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
         <div>
           <Link href="/" className="text-lg hover:text-green-800">
             Home
@@ -23,7 +23,7 @@ const Navbar = async () => {
     );
   } else {
     return (
-      <nav className="fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
+      <nav className=" shadow-md fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
         <div className="flex items-center space-x-4">
           <div className="flex space-x-4">
             <Link href="/" className="text-lg hover:text-green-800">
