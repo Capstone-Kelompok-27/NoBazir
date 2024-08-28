@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { api } from "@/trpc/react";
 import Image from "next/image";
 
@@ -41,7 +41,7 @@ const ProductItemCreate: React.FC<{ merchantId: string }> = ({
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       reader.onloadend = async () => {
         const base64Data = reader.result as string;
         try {
@@ -53,12 +53,7 @@ const ProductItemCreate: React.FC<{ merchantId: string }> = ({
           resolve(cbImageUrl);
         } catch (error) {
           console.error("Failed to upload image:", error);
-          reject(null);
         }
-      };
-
-      reader.onerror = () => {
-        reject(null);
       };
     });
   };
@@ -145,7 +140,7 @@ const ProductItemCreate: React.FC<{ merchantId: string }> = ({
       price: priceInput,
       stock: stockInput,
       totalCalorie: calorieInput,
-      pictureUrl: uploadedImageUrl || undefined,
+      pictureUrl: uploadedImageUrl ?? undefined,
     });
     window.location.reload();
   };

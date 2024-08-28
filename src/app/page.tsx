@@ -1,14 +1,9 @@
 import Navbar from "@/app/_components/Navbar";
-import { getServerAuthSession } from "@/server/auth";
 import { HydrateClient } from "@/trpc/server";
-import Logout from "./_components/logout";
 
-import TestUlploadImage from "./_components/testUploadImage";
 import Footer from "./_components/Footer";
 
 export default async function Home() {
-  const session = await getServerAuthSession();
-
   return (
     <HydrateClient>
       <main className="flex min-h-screen w-full flex-col items-center justify-center">
@@ -68,7 +63,7 @@ export default async function Home() {
                 </div>
                 <div className="mt-10 flex flex-col justify-start">
                   <h1 className="font-montserrat text-[58px] font-extrabold text-[#EBF2FA]">
-                    Discuss What's
+                    Discuss What&apos;s
                     <br /> Happening on Community
                   </h1>
                   <h1 className="mt-10 font-source-sans text-[22px] font-semibold text-[#EBF2FA]">
@@ -137,7 +132,7 @@ export default async function Home() {
                   Have any Question?
                 </h1>
                 <h1 className="font-regular my-5 font-source-sans text-[24px] text-[#FFFFFF]">
-                  We're here to help! Reach out to us anytime through our
+                  We&apos;re here to help! Reach out to us anytime through our
                   contact
                 </h1>
               </div>
@@ -207,7 +202,7 @@ export default async function Home() {
                 </div>
                 <div className="mt-10 flex flex-col justify-start">
                   <h1 className="font-montserrat text-[58px] font-extrabold text-[#EBF2FA]">
-                    Discuss What's
+                    Discuss What&apos;s
                     <br /> Happening on Community
                   </h1>
                   <h1 className="mt-10 font-source-sans text-[22px] font-semibold text-[#EBF2FA]">
@@ -276,7 +271,7 @@ export default async function Home() {
                   Have any Question?
                 </h1>
                 <h1 className="font-regular my-5 font-source-sans text-[24px] text-[#FFFFFF]">
-                  We're here to help! Reach out to us anytime through our
+                  We&apos;re here to help! Reach out to us anytime through our
                   contact
                 </h1>
               </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 interface DropdownProps {
   options: { value: string }[];
-  onChange: (value: any) => void;
+  onChange: (value: string) => void;
   selectedValue: string;
 }
 
@@ -15,7 +15,7 @@ const DropdownSearch: React.FC<DropdownProps> = ({
     <select
       value={selectedValue}
       onChange={(e) => onChange(e.target.value)}
-      className="form-select text-[#679436] text-md bg-transparent"
+      className="form-select text-md bg-transparent text-[#679436]"
     >
       {options.map((option) => (
         <option
