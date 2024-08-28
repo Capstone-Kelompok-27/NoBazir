@@ -182,6 +182,10 @@ export const catalogRouter = createTRPCRouter({
       return updatedProduct;
     }),
 
+    deleteProduct: publicProcedure.input(z.string()).mutation(async ({input}) => {
+      return await db.delete(products).where(eq(products.id, input))
+    }),
+
   createProductPictureUrl: publicProcedure
     .input(
       z.object({

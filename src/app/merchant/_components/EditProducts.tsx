@@ -7,12 +7,15 @@ import { api } from "@/trpc/react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import addProductIcon from "public/merchant/add-product-icon.png";
+import ProductItemCreate from "./ProductItemCreate";
 
 interface EditProductsProp {
   session: Session;
 }
 
 const EditProducts: React.FC<EditProductsProp> = ({ session }) => {
+  const [addClicked, setAddClicked] = useState<boolean>(false);
+
   const catalogContext = useContext(CatalogContext);
   if (!catalogContext) {
     throw new Error(
@@ -39,6 +42,10 @@ const EditProducts: React.FC<EditProductsProp> = ({ session }) => {
     if (productByMerchantId.data) setProducts(productByMerchantId.data);
   }, [setProducts, productByMerchantId.data]);
 
+  const addOnClick = () => {
+    setAddClicked(!addClicked);
+  };
+
   return (
     <div className="mt-28 flex w-full flex-col px-8">
       <div className="w-full text-start text-3xl font-bold text-[#679436]">
@@ -48,15 +55,26 @@ const EditProducts: React.FC<EditProductsProp> = ({ session }) => {
         {products.map((item) => (
           <ProductItemEdit key={item.id} {...item} />
         ))}
+        {addClicked && <ProductItemCreate merchantId={query} />}
       </div>
       <div className="flex w-full items-center justify-center">
-        <button className="flex items-center justify-center m-5">
-          <Image
-            src={addProductIcon}
-            alt="Add Product Icon"
-            width={42}
-            height={42}
-          />
+        <button
+          onClick={addOnClick}
+          className="m-5 flex items-center justify-center"
+        >
+          {addClicked && (
+            <div className="flex h-9 w-9 items-center justify-center rounded-full ring-2 ring-[#679436] ring-offset-1 text-[#679436]  text-3xl">
+              -
+            </div>
+          )}
+          {!addClicked && (
+            <Image
+              src={addProductIcon}
+              alt="Add Product Icon"
+              width={42}
+              height={42}
+            />
+          )}
         </button>
       </div>
     </div>

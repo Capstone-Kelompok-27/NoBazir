@@ -4,35 +4,18 @@ import React, { useEffect, useState } from "react";
 import { api } from "@/trpc/react";
 import Image from "next/image";
 
-interface FoodCatalogProps {
-  id: string;
-  createdByMerchantId: string;
-  productName: string;
-  productType?: string | null;
-  price: number;
-  expireDate: string;
-  expireHour: number;
-  stock: number;
-  pictureUrl: string | null;
-  totalCalorie?: number | null;
-  likeCount: number;
-  customerIdLikeList?: string | null;
-  createdAt: Date;
-  updatedAt?: Date | null;
-}
-
-const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
+const ProductItemCreate: React.FC<{ merchantId: string }> = ({
+  merchantId,
+}) => {
   // API Calls
   const createProductPictureUrl =
     api.catalog.createProductPictureUrl.useMutation();
-  const updateProduct = api.catalog.updateProduct.useMutation();
-  const deleteProduct = api.catalog.deleteProduct.useMutation();
+  const createProduct = api.catalog.createProduct.useMutation();
 
   // States
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>(
-    props.pictureUrl ??
-      "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
+    "https://firebasestorage.googleapis.com/v0/b/nobazir-2852e.appspot.com/o/product-image-not-available.png-1724596226993?alt=media&token=061dfd41-d345-4cc3-b885-9594eaa42d96",
   );
 
   // Handle image
@@ -82,20 +65,16 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
 
   // Handle text input
   // States
-  const [nameInput, setNameInput] = useState<string>(props.productName);
-  const [expireDateInput, setExpireDateInput] = useState<string>(
-    props.expireDate,
-  );
-  const [expireTimeInput, setExpireTimeInput] = useState<number>(
-    props.expireHour,
-  );
+  const [nameInput, setNameInput] = useState<string>("");
+  const [expireDateInput, setExpireDateInput] = useState<string>("");
+  const [expireTimeInput, setExpireTimeInput] = useState<number>(0);
   const [typeInput, setTypeInput] = useState<string | undefined>(
-    props.productType ?? undefined,
+    "" ?? undefined,
   );
-  const [priceInput, setPriceInput] = useState<number>(props.price);
-  const [stockInput, setStockInput] = useState<number>(props.stock);
+  const [priceInput, setPriceInput] = useState<number>(0);
+  const [stockInput, setStockInput] = useState<number>(0);
   const [calorieInput, setCalorieInput] = useState<number | undefined>(
-    props.totalCalorie ?? undefined,
+    0 ?? undefined,
   );
 
   // Name
@@ -154,38 +133,11 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
     setCalorieInput(parseInt(event.target.value));
   };
 
-  // Handle Edit Button -- If something changed
-  const [dataChanged, setDataChanged] = useState<boolean>(false);
-  useEffect(() => {
-    if (
-      nameInput !== props.productName ||
-      expireDateInput !== props.expireDate ||
-      expireTimeInput !== props.expireHour ||
-      priceInput !== props.price ||
-      stockInput !== props.stock ||
-      calorieInput !== props.totalCalorie ||
-      typeInput !== props.productType ||
-      imageUrl !== props.pictureUrl
-    ) {
-      if (
-        !(props.totalCalorie === null && calorieInput === undefined) ||
-        !(props.productType === null && typeInput === undefined)
-      ) {
-        setDataChanged(true);
-      } else {
-        setDataChanged(false);
-      }
-      setDataChanged(true);
-    } else {
-      setDataChanged(false);
-    }
-  });
-
   // Handle Edit Button On Click
-  const editOnClick = async () => {
+  const createOnClick = async () => {
     const uploadedImageUrl = await handleImageUpload();
-    await updateProduct.mutateAsync({
-      id: props.id,
+    await createProduct.mutateAsync({
+      createdByMerchantId: merchantId,
       productName: nameInput,
       productType: typeInput,
       expireDate: expireDateInput,
@@ -195,12 +147,6 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
       totalCalorie: calorieInput,
       pictureUrl: uploadedImageUrl || undefined,
     });
-    window.location.reload();
-  };
-
-  // Handle Delete Button On CLick
-  const deleteOnClick = async () => {
-    await deleteProduct.mutateAsync(props.id);
     window.location.reload();
   };
 
@@ -251,7 +197,7 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
               <div>
                 <input
                   type="text"
-                  name="expireDateInput"
+                  name="expireDateInputt"
                   placeholder="YYYY-MM-DD"
                   value={expireDateInput}
                   onChange={handleExpireDateInputChange}
@@ -338,19 +284,11 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
           </div>
         </div>
         <div className="flex flex-col items-center justify-center">
-          {dataChanged && (
-            <button
-              onClick={editOnClick}
-              className="mt-7 flex w-16 justify-center rounded-3xl bg-[#A5BE00] px-3 py-2 text-gray-100"
-            >
-              Edit
-            </button>
-          )}
           <button
-            onClick={deleteOnClick}
-            className="mt-7 flex w-16 justify-center rounded-3xl bg-[#d92e41] px-3 py-2 text-center text-gray-100"
+            onClick={createOnClick}
+            className="w-16 mt-7 rounded-3xl bg-[#A5BE00] px-3 py-2 text-gray-100 flex justify-center"
           >
-            Delete
+            Create
           </button>
         </div>
       </div>
@@ -360,4 +298,4 @@ const ProductItemEdit: React.FC<FoodCatalogProps> = (props) => {
   );
 };
 
-export default ProductItemEdit;
+export default ProductItemCreate;
