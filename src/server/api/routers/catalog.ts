@@ -105,7 +105,7 @@ export const catalogRouter = createTRPCRouter({
         .select()
         .from(products)
         .where(eq(products.id, productId));
-      return result[0] ?? undefined;
+      return result ?? undefined;
     }),
 
   getProductByMerchantId: publicProcedure

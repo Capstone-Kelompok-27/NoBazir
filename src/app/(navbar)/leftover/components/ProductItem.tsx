@@ -1,7 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
+import { CatalogContext } from "@/app/_context/catalogContext";
+import { useRouter } from "next/navigation";
 
 interface FoodCatalogProps {
   id: string;
@@ -21,6 +23,21 @@ interface FoodCatalogProps {
 }
 
 const ProductItem: React.FC<FoodCatalogProps> = (props) => {
+  const router = useRouter();
+
+  const catalogContext = useContext(CatalogContext);
+  if (!catalogContext) {
+    throw new Error(
+      "page component must be used within a CatalogContextProvider",
+    );
+  }
+  const { setProduct } = catalogContext;
+
+  const orderOnClick = () => {
+    setProduct(props);
+    router.push("/leftover/order");
+  };
+
   return (
     <div className="max-w-1/3 w-[425px]">
       <div className="m-7 flex flex-col gap-2 rounded-2xl bg-white p-5">
@@ -47,7 +64,10 @@ const ProductItem: React.FC<FoodCatalogProps> = (props) => {
           Total Calorie: {props.totalCalorie} | Like: {props.likeCount} |
         </div>
         <div className="flex justify-center">
-          <button className="mb-2 mt-2 w-5/6 rounded-2xl bg-[#679436] p-2 font-montserrat text-[20px] font-semibold text-white">
+          <button
+            onClick={orderOnClick}
+            className="mb-2 mt-2 w-5/6 rounded-2xl bg-[#679436] p-2 font-montserrat text-[20px] font-semibold text-white"
+          >
             Order
           </button>
         </div>
