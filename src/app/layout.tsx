@@ -9,7 +9,7 @@ import { RoleContextProvider } from "./_context/roleContext";
 export const metadata: Metadata = {
   title: "NoBazir",
   description: "Say no to mubazzir with NoBazir",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/nobazir-logo.ico" }],
 };
 
 export default function RootLayout({
