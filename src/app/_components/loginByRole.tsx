@@ -20,10 +20,9 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
   const { setRole } = roleContext;
 
   const handleCustomerLogin = async () => {
-    console.log(session?.user.role);
     if (session) {
       setRole(session.user.role);
-      router.push("/leftover");
+      router.push("/");
     } else {
       setRole("customer");
       router.push("/login");
@@ -33,18 +32,42 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
   const handleMerchantLogin = async () => {
     if (session) {
       setRole(session.user.role);
-      router.push("/leftover");
+      router.push("/");
     } else {
       setRole("merchant");
       router.push("/login");
     }
   };
-  return (
-    <div className="flex w-full justify-center gap-5">
-      <button onClick={handleCustomerLogin}>Log In</button>
-      <button onClick={handleMerchantLogin}>Business Sign Up</button>
-    </div>
-  );
+
+  if (session) {
+    return (
+      <>
+        <button className="rounded-full p-1 hover:bg-green-700">
+          <img src="/navbar/cart.svg" alt="Cart" width={32} height={32} />
+        </button>
+        <button className="rounded-full p-1 hover:bg-green-700">
+          <img src="/navbar/person.svg" alt="User" width={32} height={32} />
+        </button>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <button
+          onClick={handleCustomerLogin}
+          className="flex h-10 w-32 items-center justify-center rounded-full border border-yellow-500 bg-white p-3 text-yellow-500 hover:bg-green-700"
+        >
+          Log In
+        </button>
+        <button
+          onClick={handleMerchantLogin}
+          className="flex h-10 items-center justify-center rounded-full bg-yellow-500 p-3 text-white hover:bg-green-700"
+        >
+          Business Sign Up
+        </button>
+      </>
+    );
+  }
 };
 
 export default LoginByRole;

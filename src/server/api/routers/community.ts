@@ -86,4 +86,30 @@ export const communityRouter = createTRPCRouter({
         .from(posts)
         .where(eq(posts.createdById, creatorId));
     }),
+
+  createPost: publicProcedure
+    .input(
+      z.object({
+        createdById: z.string(),
+        postTitle: z.string(),
+        postPictureUrl: z.string().optional(),
+        postContent: z.string(),
+        postTag: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { createdById } = input;
+
+      const existingUser = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, createdById));
+
+      if (existingUser.length === 0) {
+        throw new Error("User not found");
+      }
+
+      const createdPost = await db.insert(posts).values(input).returning();
+      return createdPost;
+    }),
 });
