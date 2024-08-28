@@ -13,6 +13,11 @@ const config = {
         hostname: "firebasestorage.googleapis.com",
         pathname: "/v0/b/nobazir-2852e.appspot.com/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -13,7 +13,7 @@ import { z } from "zod";
 // Drizzle adalah ORM (Object-Relational Mapping), yaitu menghubungkan database dan
 // mengubahnya menjadi objek yang bisa kita pakai di TypeScript.
 // Ini kita hanya input metode untuk comparison dan sorting.
-import { eq, lte, gte, asc, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 // Kita import database yang kita gunakan dengan line ini.
 import { db } from "@/server/db";
