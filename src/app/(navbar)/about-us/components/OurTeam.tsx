@@ -11,10 +11,10 @@ const OurTeam: React.FC<OurTeamProps> = ({ foto, name, role }) => (
     <img
       src={foto}
       alt={`${name} ${role}`}
-      className="my-4 h-32 w-32 rounded-full object-cover"
+      className="my-4 h-32 w-32 rounded-full object-cover hover:scale-110 hover:shadow-2xl"
     />
-    <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436]">
-      <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold">
+    <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436] hover:scale-105 hover:shadow-2xl">
+      <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold ">
         {name}
       </p>
       <p className="text-center font-source-sans text-[16px]">{role}</p>
