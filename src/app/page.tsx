@@ -21,7 +21,7 @@ export default async function Home() {
                   consumption, along with educational content related to
                   environmental issues.
                 </h1>
-                <a href="/home">
+                <a href="/">
                 <button className="my-5 rounded-full bg-gradient-to-r bg-[#A5BE00] px-8 py-3 text-xl text-white shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105">Get Started</button>
                 </a>
               </div>
