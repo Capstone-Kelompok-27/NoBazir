@@ -22,18 +22,12 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
    ```sh
    npm install
-   or
-   yarn install
-
    ```
 
 5. Run the application
 
    ```sh
    npm run dev
-   or
-   yarn dev
-
    ```
 
 6. To run, access http://localhost:3000/ on your browser
