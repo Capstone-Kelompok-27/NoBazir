@@ -11,7 +11,7 @@ const CreatePost: React.FC<CreatePostProp> = ({ session }) => {
     <div className="flex w-full">
       <div className="flex w-1/12 items-start justify-center">
         <Image
-          src={session.user.image ?? ""}
+          src={session?.user.image ?? ""}
           alt="user profile image"
           width={48}
           height={48}
