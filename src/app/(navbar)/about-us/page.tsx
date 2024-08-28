@@ -25,7 +25,7 @@ const Page = () => {
 
   const ourTeam = [
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/apple.jpg",
       name: "Zheannetta Apple",
       role: "Project Manager",
     },
@@ -40,12 +40,12 @@ const Page = () => {
       role: "Game Developer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/andi.jpg",
       name: "Andi Farhan Hidayat",
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/radhi.jpg",
+      path: "/navbar/ourteam/radhi.jpeg",
       name: "Azfa Radhiyya Hakim",
       role: "Software Engineer",
     },
@@ -55,7 +55,7 @@ const Page = () => {
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/rusmin.jpg",
       name: "Muh. Rusmin Nurwadin",
       role: "Software Engineer",
     },
@@ -65,12 +65,12 @@ const Page = () => {
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/salman.jpg",
       name: "Salman Hanif",
       role: "Data Scientist",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/yayat.jpg",
       name: "Fityatul Haq Rosyidi",
       role: "Data Scientist",
     },
@@ -98,7 +98,7 @@ const Page = () => {
         Our Goals
       </div>
       <div className="mx-6 my-4 flex items-center justify-center">
-        <div className="flex flex-row items-center justify-center">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {goals.map((item, index) => (
             <GoalCard key={index} link={item.path} des={item.desc} />
           ))}
