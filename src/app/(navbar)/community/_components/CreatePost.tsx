@@ -94,6 +94,7 @@ const CreatePost: React.FC<CreatePostProp> = ({ session }) => {
       postContent: postContent,
       postTag: postTag,
     });
+    window.location.reload();
   };
 
   return (
