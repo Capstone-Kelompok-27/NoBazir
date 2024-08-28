@@ -11,7 +11,7 @@ import { eq, ilike, lte, and, gte, asc, desc } from "drizzle-orm";
 import { db } from "@/server/db";
 
 import { merchants, products } from "@/server/db/schema";
-import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/config/firebase.config";
 
 export const catalogRouter = createTRPCRouter({
@@ -25,7 +25,7 @@ export const catalogRouter = createTRPCRouter({
       return await db
         .select()
         .from(products)
-        .where(ilike(products.productName, productName));
+        .where(ilike(products.productName, `%${productName}%`));
     }),
 
   getProductByType: publicProcedure
@@ -37,23 +37,35 @@ export const catalogRouter = createTRPCRouter({
         .where(eq(products.productType, productType));
     }),
 
-  getProductByLikeCount: publicProcedure.query(async () => {
-    return await db.select().from(products).orderBy(desc(products.likeCount));
-  }),
-
-  getProductSortedByExpireDate: publicProcedure
+  getProductByLikeCount: publicProcedure
     .input(z.enum(["asc", "desc"]))
     .query(async ({ input: param }) => {
       if (param === "asc") {
         return await db
           .select()
           .from(products)
-          .orderBy(asc(products.expireDate));
+          .orderBy(asc(products.likeCount));
       } else {
         return await db
           .select()
           .from(products)
-          .orderBy(desc(products.expireDate));
+          .orderBy(desc(products.likeCount));
+      }
+    }),
+
+  getProductSortedByExpire: publicProcedure
+    .input(z.enum(["asc", "desc"]))
+    .query(async ({ input: param }) => {
+      if (param === "asc") {
+        return await db
+          .select()
+          .from(products)
+          .orderBy(asc(products.expireDate), asc(products.expireHour));
+      } else {
+        return await db
+          .select()
+          .from(products)
+          .orderBy(desc(products.expireDate), desc(products.expireHour));
       }
     }),
 
@@ -84,6 +96,34 @@ export const catalogRouter = createTRPCRouter({
       } else {
         return await db.select().from(products).orderBy(desc(products.price));
       }
+    }),
+
+  getProductById: publicProcedure
+    .input(z.string())
+    .query(async ({ input: productId }) => {
+      const result = await db
+        .select()
+        .from(products)
+        .where(eq(products.id, productId));
+      return result ?? undefined;
+    }),
+
+  getProductByMerchantId: publicProcedure
+    .input(z.string())
+    .query(async ({ input: merchantId }) => {
+      return await db
+        .select()
+        .from(products)
+        .where(eq(products.createdByMerchantId, merchantId));
+    }),
+
+  getProductIdByMerchantId: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      return await db
+        .select({ id: products.id })
+        .from(products)
+        .where(eq(products.createdByMerchantId, input));
     }),
 
   createProduct: publicProcedure
@@ -119,6 +159,33 @@ export const catalogRouter = createTRPCRouter({
       return createdProduct;
     }),
 
+  updateProduct: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        productName: z.string().optional(),
+        productType: z.string().optional(),
+        price: z.number().optional(),
+        expireDate: z.string().optional(),
+        expireHour: z.number().optional(),
+        stock: z.number().optional(),
+        pictureUrl: z.string().optional(),
+        totalCalorie: z.number().optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const updatedProduct = await db
+        .update(products)
+        .set(input)
+        .where(eq(products.id, input.id))
+        .returning();
+      return updatedProduct;
+    }),
+
+    deleteProduct: publicProcedure.input(z.string()).mutation(async ({input}) => {
+      return await db.delete(products).where(eq(products.id, input))
+    }),
+
   createProductPictureUrl: publicProcedure
     .input(
       z.object({
@@ -148,20 +215,5 @@ export const catalogRouter = createTRPCRouter({
       const downloadUrl = await getDownloadURL(snapshot.ref);
 
       return downloadUrl;
-    }),
-
-  getProductByID: publicProcedure
-    .input(z.string())
-    .query(async ({ input: productId }) => {
-      return await db.select().from(products).where(eq(products.id, productId));
-    }),
-
-  getProductByMerchantID: publicProcedure
-    .input(z.string())
-    .query(async ({ input: merchantId }) => {
-      return await db
-        .select()
-        .from(products)
-        .where(eq(products.createdByMerchantId, merchantId));
     }),
 });
