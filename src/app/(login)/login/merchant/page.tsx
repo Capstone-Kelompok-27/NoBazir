@@ -18,14 +18,13 @@ const page = async () => {
         </div>
         <FormLoginMerchant session={session} />
       </div>
-      <div className="w-1/2 flex justify-center items-center">
+      <div className="relative w-1/2">
       <Image
           src="/navbar/landing/merchant.png"
           alt="Merchant"
           layout="fill"
           objectFit="cover"
-          className="rounded-lg"
-        />
+          className="rounded-l-xl"/>
               </div>
     </div>
   );
