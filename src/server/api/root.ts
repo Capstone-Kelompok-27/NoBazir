@@ -11,7 +11,7 @@ import { communityRouter } from "./routers/community";
 export const appRouter = createTRPCRouter({
   auth: authRouter,
   catalog: catalogRouter,
-  post: communityRouter,
+  community: communityRouter,
 });
 
 // export type definition of API
