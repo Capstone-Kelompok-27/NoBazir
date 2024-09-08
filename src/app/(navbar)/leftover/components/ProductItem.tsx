@@ -53,15 +53,25 @@ const ProductItem: React.FC<FoodCatalogProps> = (props) => {
             height={300}
           />
         </div>
+        <div className="mx-2 font-montserrat text-[23px] font-bold text-[#A5BE00]">
+          {props.productName}
+        </div>
+        <div className="flex flex-row">
+          <div className=" mx-1 border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
+          {props.productType}
+          </div>
+          <div className=" mx-1 border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
+          {props.stock} item
+          </div>
+          <div className=" mx-1  border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
+          {props.totalCalorie} kcal
+          </div>
+        </div>
         <div className="mx-2 font-source-sans text-[#679436]">
           Expire: {props.expireDate} | {props.expireHour}.00
         </div>
         <div className="mx-2 font-montserrat text-[23px] font-bold text-[#A5BE00]">
-          {props.productName}
-        </div>
-        <div className="mx-2 text-justify font-source-sans text-[17px] text-[#679436]">
-          | {props.productType} | Stock: {props.stock} | Price: {props.price} |
-          Total Calorie: {props.totalCalorie} | Like: {props.likeCount} |
+          Rp. {props.price}
         </div>
         <div className="flex justify-center">
           <button
