@@ -102,7 +102,7 @@ const SearchPost = () => {
       <div className="text-xl font-bold text-[#679436]">Search Post:</div>
       <form
         onSubmit={handleSubmit}
-        className="flex w-4/5 items-center justify-between gap-3"
+        className="flex w-full items-center justify-between gap-3"
       >
         <input
           type="text"
