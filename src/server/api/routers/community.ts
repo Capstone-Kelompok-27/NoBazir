@@ -49,8 +49,10 @@ export const communityRouter = createTRPCRouter({
       .where(
         or(
           ilike(posts.postTitle, `%${input}%`),
-          ilike(posts.postContent, `%${input}%`),
-          ilike(posts.postTag, `%${input}%`),
+          or(
+            ilike(posts.postContent, `%${input}%`),
+            ilike(posts.postTag, `%${input}%`),
+          ),
         ),
       );
   }),
