@@ -84,79 +84,94 @@ const FormLoginMerchant: React.FC<FormLoginMerchantProp> = ({ session }) => {
       role: "merchant",
     });
 
-    router.push("/");
+    router.push("/merchant");
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-10">
-      <span className="text-green-600 font-semibold">Name: {session.user.name}</span>
+      <span className="font-semibold text-green-600">
+        Name: {session.user.name}
+      </span>
       <div className="my-3 flex flex-col">
-        <label htmlFor="merchantName" className="text-green-600">Business Name:</label>
+        <label htmlFor="merchantName" className="text-green-600">
+          Business Name:
+        </label>
         <input
           id="merchantName"
           name="merchantName"
           type="text"
           value={formValues.merchantName}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
         {errors.merchantName && <p>{errors.merchantName}</p>}
       </div>
 
       <div className="my-3 flex flex-col">
-        <label htmlFor="merchantType" className="text-green-600">Business Type:</label>
+        <label htmlFor="merchantType" className="text-green-600">
+          Business Type:
+        </label>
         <input
           id="merchantType"
           name="merchantType"
           type="text"
           value={formValues.merchantType}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
         {errors.merchantType && <p>{errors.merchantType}</p>}
       </div>
 
       <div className="my-3 flex flex-col">
-        <label htmlFor="location" className="text-green-600">Location:</label>
+        <label htmlFor="location" className="text-green-600">
+          Location:
+        </label>
         <input
           id="location"
           name="location"
           type="text"
           value={formValues.location}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
       </div>
 
       <div className="my-3 flex flex-col">
-        <label htmlFor="phoneNumber" className="text-green-600">Phone Number: </label>
+        <label htmlFor="phoneNumber" className="text-green-600">
+          Phone Number:{" "}
+        </label>
         <input
           id="phoneNumber"
           name="phoneNumber"
           type="text"
           value={formValues.phoneNumber}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
         {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
       </div>
 
       <div className="my-3 flex flex-col">
-        <label htmlFor="socialMedia" className="text-green-600">Social Media: </label>
+        <label htmlFor="socialMedia" className="text-green-600">
+          Social Media:{" "}
+        </label>
         <input
           id="socialMedia"
           name="socialMedia"
           type="text"
           value={formValues.socialMedia}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
         {errors.socialMedia && <p>{errors.socialMedia}</p>}
       </div>
       <div className="flex justify-center">
-      <button type="submit" className="w-1/2 p-3 bg-green-600 text-white rounded-full">
-        Create Merchant
-      </button>
+        <button
+          type="submit"
+          className="w-1/2 rounded-full bg-green-600 p-3 text-white"
+        >
+          Create Merchant
+        </button>
       </div>
     </form>
   );

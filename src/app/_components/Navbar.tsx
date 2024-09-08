@@ -9,13 +9,22 @@ const Navbar = async () => {
   // Merchant
   if (session?.user.role === "merchant") {
     return (
-      <nav className="shadow-md fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
-        <div>
-          <Link href="/" className="text-lg hover:text-green-800">
+      <nav className="fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white shadow-md">
+        <Link href="/merchant" className="flex text-lg font-semibold">
+          Nobazir Seller Center
+        </Link>
+        <div className="flex items-center justify-center gap-5">
+          <Link href="/" className="text-md hover:text-green-800">
             Home
           </Link>
+          <Link href="/merchant" className="text-md hover:text-green-800">
+            My Products
+          </Link>
+          <Link href="/community" className="text-md hover:text-green-800">
+            Community
+          </Link>
         </div>
-        <div className="flex text-lg font-semibold">Nobazir Seller Center</div>
+
         <div className="flex space-x-4">
           <LoginByRole session={session} />
         </div>
@@ -23,7 +32,7 @@ const Navbar = async () => {
     );
   } else {
     return (
-      <nav className=" shadow-md fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white">
+      <nav className="fixed left-0 right-0 top-0 z-50 m-5 flex h-16 items-center justify-between rounded-2xl border border-transparent bg-[#679436] px-6 py-3 text-white shadow-md">
         <div className="flex items-center space-x-4">
           <div className="flex space-x-4">
             <Link href="/" className="text-lg hover:text-green-800">
