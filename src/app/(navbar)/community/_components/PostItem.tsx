@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 interface postType {
   id: string;
@@ -15,9 +17,21 @@ interface postType {
 }
 
 const PostItem: React.FC<postType> = (props) => {
-  // const likeClicked = () => {
+  const [alreadyLike, setAlreadyLike] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [heartUrl, setHeartUrl] = useState<string>("/heart.svg");
 
-  // };
+  const likeClicked = () => {
+    if (!alreadyLike) {
+      setLikeCount((prev) => prev + 1);
+      setAlreadyLike(true);
+      setHeartUrl("/heart_filled.svg");
+    } else {
+      setLikeCount((prev) => prev - 1);
+      setAlreadyLike(false);
+      setHeartUrl("/heart.svg");
+    }
+  };
 
   return (
     <div className="relative mx-10 my-5 flex w-10/12 items-start justify-center rounded-2xl bg-white p-5">
@@ -32,11 +46,11 @@ const PostItem: React.FC<postType> = (props) => {
         <div className="text-[#A5BE00]">{props.postContent}</div>
         <div
           className="justify- flex items-center gap-0.5 text-[#679436]"
-          // onClick={}
+          onClick={likeClicked}
         >
-          <Image src="/heart.svg" width={25} height={25} alt="like" />
+          <Image src={heartUrl} width={25} height={25} alt="like" />
           <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
-            {props.likeCount}
+            {likeCount}
           </div>
         </div>
       </div>
