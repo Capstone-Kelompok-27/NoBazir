@@ -34,8 +34,8 @@ const PostItem: React.FC<postType> = (props) => {
           className="justify- flex items-center gap-0.5 text-[#679436]"
           // onClick={}
         >
-          <Image src="/heart.svg" width={30} height={30} alt="like" />
-          <div className="flex translate-y-[1.3px] items-end justify-center text-2xl">
+          <Image src="/heart.svg" width={25} height={25} alt="like" />
+          <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
             {props.likeCount}
           </div>
         </div>
