@@ -4,7 +4,7 @@ import React, { useState, useContext, useEffect } from "react";
 import ProductItemEdit from "./ProductItemEdit";
 import { CatalogContext } from "@/app/_context/catalogContext";
 import { api } from "@/trpc/react";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import Image from "next/image";
 import addProductIcon from "public/merchant/add-product-icon.png";
 import ProductItemCreate from "./ProductItemCreate";
