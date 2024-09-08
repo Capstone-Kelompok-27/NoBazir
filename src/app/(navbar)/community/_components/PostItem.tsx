@@ -15,6 +15,10 @@ interface postType {
 }
 
 const PostItem: React.FC<postType> = (props) => {
+  // const likeClicked = () => {
+
+  // };
+
   return (
     <div className="relative mx-10 my-5 flex w-10/12 items-start justify-center rounded-2xl bg-white p-5">
       <div className="flex w-4/6 flex-col gap-2">
@@ -26,7 +30,15 @@ const PostItem: React.FC<postType> = (props) => {
           #{props.postTag}
         </div>
         <div className="text-[#A5BE00]">{props.postContent}</div>
-        <div className="text-[#679436]">Like: {props.likeCount}</div>
+        <div
+          className="justify- flex items-center gap-0.5 text-[#679436]"
+          // onClick={}
+        >
+          <Image src="/heart.svg" width={30} height={30} alt="like" />
+          <div className="flex translate-y-[1.3px] items-end justify-center text-2xl">
+            {props.likeCount}
+          </div>
+        </div>
       </div>
       <div className="flex w-2/6 items-center justify-center">
         <Image
