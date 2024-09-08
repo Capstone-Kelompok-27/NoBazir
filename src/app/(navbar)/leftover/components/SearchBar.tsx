@@ -142,7 +142,7 @@ const SearchBar = () => {
       setProducts(productSortedByExpire.data);
       setToggleApply(false);
     }
-  });
+  }, [productSortedByExpire.data, toggleApply, setProducts]);
 
   // Filter data by price
   const productSortedByPrice = api.catalog.getProductByPriceRange.useQuery(
@@ -154,7 +154,7 @@ const SearchBar = () => {
       setProducts(productSortedByPrice.data);
       setToggleApply(false);
     }
-  });
+  }, [productSortedByPrice.data, setProducts, setToggleApply, toggleApply]);
 
   // Filter data by like
   const productSortedByLike = api.catalog.getProductByLikeCount.useQuery(
@@ -166,7 +166,7 @@ const SearchBar = () => {
       setProducts(productSortedByLike.data);
       setToggleApply(false);
     }
-  });
+  }, [productSortedByLike.data, toggleApply, setProducts]);
 
   // Filter data by calorie
   // const productSortedByCalorie = api.catalog.getProductByCalorie.useQuery(
@@ -231,7 +231,7 @@ const SearchBar = () => {
         )}
 
         {toggleFilter && (
-          <div className="ring:inset absolute right-0 -translate-x-1 top-3 z-10 flex w-fit flex-col items-start justify-center gap-2 bg-white p-5 ring-1 ring-gray-300">
+          <div className="ring:inset absolute right-0 top-3 z-10 flex w-fit -translate-x-1 flex-col items-start justify-center gap-2 bg-white p-5 ring-1 ring-gray-300">
             <div className="mb-1 text-xl font-bold text-[#679436]">
               Filter By:
             </div>
