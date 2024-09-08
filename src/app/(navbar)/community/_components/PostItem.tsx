@@ -34,7 +34,7 @@ const PostItem: React.FC<postType> = (props) => {
   };
 
   return (
-    <div className="relative mx-10 my-5 flex w-10/12 items-start justify-center rounded-2xl bg-white p-5">
+    <div className="relative mx-10 my-5 flex w-9/12 items-start justify-center rounded-2xl bg-white p-8 pr-0">
       <div className="flex w-4/6 flex-col gap-2">
         <div className="text-2xl font-semibold text-[#679436]">
           {props.postTitle}
