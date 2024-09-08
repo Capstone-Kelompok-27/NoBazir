@@ -15,7 +15,7 @@ const PostList = () => {
   const { posts } = communityContext;
 
   return (
-    <div className="max-w-screen m-10 flex flex-wrap items-center justify-center">
+    <div className="max-w-screen flex flex-wrap items-center justify-center">
       {posts.map((item) => (
         <PostItem key={item.id} {...item} />
       ))}

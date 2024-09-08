@@ -13,7 +13,7 @@ import { z } from "zod";
 // Drizzle adalah ORM (Object-Relational Mapping), yaitu menghubungkan database dan
 // mengubahnya menjadi objek yang bisa kita pakai di TypeScript.
 // Ini kita hanya input metode untuk comparison dan sorting.
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, or, ilike } from "drizzle-orm";
 
 // Kita import database yang kita gunakan dengan line ini.
 import { db } from "@/server/db";
@@ -42,10 +42,44 @@ export const communityRouter = createTRPCRouter({
       return await db.select().from(posts).where(eq(posts.id, postId));
     }),
 
+  getPostByInput: publicProcedure.input(z.string()).query(async ({ input }) => {
+    return await db
+      .select()
+      .from(posts)
+      .where(
+        or(
+          ilike(posts.postTitle, `%${input}%`),
+          ilike(posts.postContent, `%${input}%`),
+          ilike(posts.postTag, `%${input}%`),
+        ),
+      );
+  }),
+
+  getPostByTitle: publicProcedure
+    .input(z.string())
+    .query(async ({ input: title }) => {
+      return await db
+        .select()
+        .from(posts)
+        .where(ilike(posts.postTitle, `%${title}%`));
+    }),
+
+  getPostByContent: publicProcedure
+    .input(z.string())
+    .query(async ({ input: content }) => {
+      return await db
+        .select()
+        .from(posts)
+        .where(ilike(posts.postContent, `%${content}%`));
+    }),
+
   getPostsByTag: publicProcedure
     .input(z.string())
     .query(async ({ input: postTag }) => {
-      return await db.select().from(posts).where(eq(posts.postTag, postTag));
+      return await db
+        .select()
+        .from(posts)
+        .where(ilike(posts.postTag, `%${postTag}%`));
     }),
 
   getPostsSortedByDateCreated: publicProcedure

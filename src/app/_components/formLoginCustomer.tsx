@@ -80,35 +80,44 @@ const FormLoginCustomer: React.FC<FormLoginCustomerProp> = ({ session }) => {
 
   return (
     <form onSubmit={handleSubmit} className="p-10">
-      <span className="text-green-600 font-semibold">Name: {session.user.name}</span>
+      <span className="font-semibold text-green-600">
+        Name: {session.user.name}
+      </span>
       <div className="my-3 flex flex-col">
-        <label htmlFor="username" className="text-green-600">Username:</label>
+        <label htmlFor="username" className="text-green-600">
+          Username:
+        </label>
         <input
           id="username"
           name="username"
           type="text"
           value={formValues.username}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
         {errors.username && <p>{errors.username}</p>}
       </div>
 
-      <div className="my-3 flex flex-col ">
-        <label htmlFor="location" className="text-green-600">Location:</label>
+      <div className="my-3 flex flex-col">
+        <label htmlFor="location" className="text-green-600">
+          Location:
+        </label>
         <input
           id="location"
           name="location"
           type="text"
           value={formValues.location}
           onChange={handleChange}
-          className="border-2 p-2 rounded-2xl w-full"
+          className="w-full rounded-2xl border-2 p-2"
         />
       </div>
       <div className="flex justify-center">
-      <button type="submit" className="w-1/2 p-3 bg-green-600 text-white rounded-full">
-        Create Customer
-      </button>
+        <button
+          type="submit"
+          className="w-1/2 rounded-full bg-green-600 p-3 text-white"
+        >
+          Create Customer
+        </button>
       </div>
     </form>
   );
