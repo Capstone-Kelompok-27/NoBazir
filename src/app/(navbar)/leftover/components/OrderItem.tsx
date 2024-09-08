@@ -75,8 +75,10 @@ const OrderItem = () => {
                   width={29}
                   height={29}
                   onClick={() => {
-                    setQuantity((prev) => prev - 1);
-                    setTotalPayment((prev) => prev - product.price);
+                    if (totalPayment - product.price >= 0 && quantity >= 1) {
+                      setQuantity((prev) => prev - 1);
+                      setTotalPayment((prev) => prev - product.price);
+                    }
                   }}
                 />
 
