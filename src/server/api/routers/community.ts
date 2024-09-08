@@ -21,6 +21,7 @@ import { db } from "@/server/db";
 // Kita dapat memahami data dari database kita sebagai objek yang memiliki skema
 // yang telah kita buat sebelumnya, di sini kita akan import skema posts dan users.
 import { posts, users } from "@/server/db/schema";
+import { TRPCError } from "@trpc/server";
 
 // MAIN CODE
 // Ini daging kodenya, kita bakal export sebuah router untuk community
@@ -121,6 +122,66 @@ export const communityRouter = createTRPCRouter({
         .select()
         .from(posts)
         .where(eq(posts.createdById, creatorId));
+    }),
+
+  updateLikePost: publicProcedure
+    .input(
+      z.object({
+        likeCount: z.number(),
+        postId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.session?.user.id;
+
+      if (!userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not registered",
+        });
+      }
+
+      const post = await ctx.db
+        .select({ userIdLikeList: posts.userIdLikeList })
+        .from(posts)
+        .where(eq(posts.id, input.postId))
+        .then((res) => res[0]);
+
+      if (!post) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Post not found!",
+        });
+      }
+
+      const userList = post.userIdLikeList ?? "";
+
+      const userArray = userList.split(",").filter((item) => item !== "");
+
+      if (!userArray.includes(userId)) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Forbidden",
+        });
+      }
+      const newUserList = post.userIdLikeList + "," + userId;
+
+      await ctx.db
+        .update(posts)
+        .set({
+          likeCount: input.likeCount,
+          userIdLikeList: newUserList,
+        })
+        .where(eq(posts.id, input.postId));
+
+      return await ctx.db
+        .select({
+          likeCount: posts.likeCount,
+          userIdLikeList: posts.userIdLikeList,
+        })
+        .from(posts)
+        .where(eq(posts.id, input.postId))
+        .then((res) => res[0]);
     }),
 
   createPost: publicProcedure
