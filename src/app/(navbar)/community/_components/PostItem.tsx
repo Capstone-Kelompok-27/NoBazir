@@ -31,10 +31,10 @@ const PostItem: React.FC<postType> = (props) => {
       <div className="flex w-2/6 items-center justify-center">
         <Image
           src={props.postPictureUrl ?? ""}
-          width={300}
-          height={300}
+          width={150}
+          height={150}
           alt="post image"
-          className="min-h-fit w-4/5 shrink-0 rounded-2xl py-2"
+          className="min-h-fit w-4/5 shrink-0 rounded-2xl p-2 py-2"
         />
       </div>
     </div>

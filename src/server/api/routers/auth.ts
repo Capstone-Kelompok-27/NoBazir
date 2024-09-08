@@ -30,6 +30,15 @@ export const authRouter = createTRPCRouter({
 
       return result[0]?.id ?? "";
     }),
+  getMerchantByUserId: publicProcedure
+    .input(z.string())
+    .query(async ({ input: userId }) => {
+      return await db
+        .select()
+        .from(merchants)
+        .where(eq(merchants.userId, userId))
+        .then((res) => res[0]);
+    }),
   updateUserRole: publicProcedure
     .input(
       z.object({

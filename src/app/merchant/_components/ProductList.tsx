@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 import { api } from "@/trpc/react";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import { CatalogContext } from "@/app/_context/catalogContext";
 import { useRouter } from "next/navigation";
 
