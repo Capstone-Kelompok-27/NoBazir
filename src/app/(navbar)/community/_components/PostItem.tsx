@@ -1,7 +1,8 @@
 "use client";
 
+import { api } from "@/trpc/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface postType {
   id: string;
@@ -20,6 +21,33 @@ const PostItem: React.FC<postType> = (props) => {
   const [alreadyLike, setAlreadyLike] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [heartUrl, setHeartUrl] = useState<string>("/heart.svg");
+  const [userList, setUserList] = useState<string>("");
+
+  useEffect(() => {
+    if (props.userIdLikeList) {
+      setUserList(props.userIdLikeList);
+    }
+  }, [props.userIdLikeList]);
+
+  if (userList === undefined || userList === null) {
+    setUserList("");
+  }
+
+  const likePostApi = api.community.updateLikePost.useQuery(
+    {
+      likeCount: likeCount,
+      postId: props.id,
+    },
+    { enabled: likeCount != props.likeCount },
+  );
+  const likePostData = likePostApi.data;
+
+  useEffect(() => {
+    if (likePostData) {
+      setUserList(likePostData.userIdLikeList ?? "");
+      setLikeCount(likePostData.likeCount ?? props.likeCount);
+    }
+  }, [likePostData, props.likeCount]);
 
   const likeClicked = () => {
     if (!alreadyLike) {
