@@ -84,7 +84,7 @@ const FormLoginMerchant: React.FC<FormLoginMerchantProp> = ({ session }) => {
       role: "merchant",
     });
 
-    router.push("/");
+    router.push("/merchant");
   };
 
   return (
