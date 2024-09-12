@@ -21,13 +21,9 @@ const PostItem: React.FC<postType> = (props) => {
   const [alreadyLike, setAlreadyLike] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [heartUrl, setHeartUrl] = useState<string>("/heart.svg");
-  const [userList, setUserList] = useState<string>("");
-
-  useEffect(() => {
-    if (props.userIdLikeList) {
-      setUserList(props.userIdLikeList);
-    }
-  }, [props.userIdLikeList]);
+  const [userList, setUserList] = useState<string | null | undefined>(
+    props.userIdLikeList,
+  );
 
   if (userList === undefined || userList === null) {
     setUserList("");
