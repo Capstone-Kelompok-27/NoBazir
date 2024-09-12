@@ -19,42 +19,32 @@ interface postType {
 
 const PostItem: React.FC<postType> = (props) => {
   const [alreadyLike, setAlreadyLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
   const [heartUrl, setHeartUrl] = useState<string>("/heart.svg");
-  const [userList, setUserList] = useState<string | null | undefined>(
-    props.userIdLikeList,
-  );
+  const [likeCount, setLikeCount] = useState<number>(props.likeCount);
 
-  if (userList === undefined || userList === null) {
-    setUserList("");
-  }
-
-  const likePostApi = api.community.updateLikePost.useQuery(
-    {
-      likeCount: likeCount,
-      postId: props.id,
-    },
-    { enabled: likeCount != props.likeCount },
-  );
-  const likePostData = likePostApi.data;
+  const likePostApi = api.community.updateLikePost.useMutation();
+  const alreadyLikeApi = api.community.getUserLikePost.useQuery(props.id);
 
   useEffect(() => {
-    if (likePostData) {
-      setUserList(likePostData.userIdLikeList ?? "");
-      setLikeCount(likePostData.likeCount ?? props.likeCount);
+    if (alreadyLikeApi.data !== undefined) {
+      console.log(alreadyLikeApi.data);
+      setAlreadyLike(alreadyLikeApi.data);
+      setHeartUrl(alreadyLikeApi.data ? "/heart_filled.svg" : "/heart.svg");
     }
-  }, [likePostData, props.likeCount]);
+  }, [alreadyLikeApi.data]);
 
-  const likeClicked = () => {
-    if (!alreadyLike) {
-      setLikeCount((prev) => prev + 1);
-      setAlreadyLike(true);
-      setHeartUrl("/heart_filled.svg");
-    } else {
-      setLikeCount((prev) => prev - 1);
-      setAlreadyLike(false);
-      setHeartUrl("/heart.svg");
-    }
+  const likeClicked = async () => {
+    const newLikeCount = alreadyLike ? likeCount - 1 : likeCount + 1;
+    setLikeCount(newLikeCount);
+    setHeartUrl(!alreadyLike ? "/heart_filled.svg" : "/heart.svg");
+    setAlreadyLike(!alreadyLike);
+
+    await likePostApi.mutateAsync({
+      likeCount: newLikeCount,
+      postId: props.id,
+    });
+
+    await alreadyLikeApi.refetch();
   };
 
   return (
@@ -68,11 +58,14 @@ const PostItem: React.FC<postType> = (props) => {
           #{props.postTag}
         </div>
         <div className="text-[#A5BE00]">{props.postContent}</div>
-        <div
-          className="justify- flex items-center gap-0.5 text-[#679436]"
-          onClick={likeClicked}
-        >
-          <Image src={heartUrl} width={25} height={25} alt="like" />
+        <div className="justify- flex items-center gap-0.5 text-[#679436]">
+          <Image
+            src={heartUrl}
+            width={25}
+            height={25}
+            alt="like"
+            onClick={likeClicked}
+          />
           <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
             {likeCount}
           </div>

@@ -13,14 +13,14 @@ import { z } from "zod";
 // Drizzle adalah ORM (Object-Relational Mapping), yaitu menghubungkan database dan
 // mengubahnya menjadi objek yang bisa kita pakai di TypeScript.
 // Ini kita hanya input metode untuk comparison dan sorting.
-import { eq, desc, or, ilike } from "drizzle-orm";
+import { eq, desc, and, or, ilike } from "drizzle-orm";
 
 // Kita import database yang kita gunakan dengan line ini.
 import { db } from "@/server/db";
 
 // Kita dapat memahami data dari database kita sebagai objek yang memiliki skema
 // yang telah kita buat sebelumnya, di sini kita akan import skema posts dan users.
-import { posts, users } from "@/server/db/schema";
+import { likes, posts, users } from "@/server/db/schema";
 import { TRPCError } from "@trpc/server";
 
 // MAIN CODE
@@ -32,7 +32,7 @@ export const communityRouter = createTRPCRouter({
 
   getAllPosts: publicProcedure.query(async () => {
     // Pake await biar nunggu query kelar sebelum ngasih respons.
-    return await db.select().from(posts);
+    return await db.select().from(posts).orderBy(desc(posts.likeCount));
   }),
 
   getPostById: publicProcedure
@@ -124,6 +124,31 @@ export const communityRouter = createTRPCRouter({
         .where(eq(posts.createdById, creatorId));
     }),
 
+  getUserLikePost: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input: postId }) => {
+      const userId = ctx.session?.user.id;
+
+      if (!userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not registered",
+        });
+      }
+
+      const likePost = await ctx.db
+        .select({ id: likes.id })
+        .from(likes)
+        .where(and(eq(likes.userId, userId), eq(likes.objectId, postId)))
+        .then((res) => res[0]);
+
+      if (likePost) {
+        return true;
+      } else {
+        return false;
+      }
+    }),
+
   updateLikePost: publicProcedure
     .input(
       z.object({
@@ -131,7 +156,7 @@ export const communityRouter = createTRPCRouter({
         postId: z.string(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
 
       if (!userId) {
@@ -142,7 +167,7 @@ export const communityRouter = createTRPCRouter({
       }
 
       const post = await ctx.db
-        .select({ userIdLikeList: posts.userIdLikeList })
+        .select({ likeCount: posts.likeCount })
         .from(posts)
         .where(eq(posts.id, input.postId))
         .then((res) => res[0]);
@@ -150,35 +175,53 @@ export const communityRouter = createTRPCRouter({
       if (!post) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Post not found!",
+          message: "post not found!",
         });
       }
 
-      const userList = post.userIdLikeList ?? "";
+      // Check if user already or did not like the post
+      const likePost = await ctx.db
+        .select({ id: likes.id })
+        .from(likes)
+        .where(and(eq(likes.userId, userId), eq(likes.objectId, input.postId)))
+        .then((res) => res[0]);
 
-      const userArray = userList.split(",").filter((item) => item !== "");
-
-      if (!userArray.includes(userId)) {
+      if (input.likeCount === post.likeCount + 1 && likePost) {
         throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "Forbidden",
+          code: "CONFLICT",
+          message: "User already like this post!",
         });
       }
-      const newUserList = post.userIdLikeList + "," + userId;
 
+      if (input.likeCount === post.likeCount - 1 && !likePost) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "User did not like this post!",
+        });
+      }
+
+      // Insert new like data
+      if (!likePost) {
+        await ctx.db
+          .insert(likes)
+          .values({ userId: userId, objectId: input.postId });
+      } else {
+        await ctx.db
+          .delete(likes)
+          .where(
+            and(eq(likes.objectId, input.postId), eq(likes.userId, userId)),
+          );
+      }
+
+      // Update data
       await ctx.db
         .update(posts)
-        .set({
-          likeCount: input.likeCount,
-          userIdLikeList: newUserList,
-        })
+        .set({ likeCount: input.likeCount })
         .where(eq(posts.id, input.postId));
 
+      // Return data
       return await ctx.db
-        .select({
-          likeCount: posts.likeCount,
-          userIdLikeList: posts.userIdLikeList,
-        })
+        .select({ likeCount: posts.likeCount })
         .from(posts)
         .where(eq(posts.id, input.postId))
         .then((res) => res[0]);
