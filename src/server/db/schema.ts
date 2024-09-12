@@ -250,7 +250,7 @@ export const posts = createTable(
     postContent: text("postContent"),
     postTag: varchar("postTag", { length: 255 }),
     likeCount: integer("likeCount").notNull().default(0),
-    userIdLikeList: varchar("userIdLikeList", { length: 36 }),
+    userIdLikeList: varchar("userIdLikeList", { length: 255 }),
     createdAt: timestamp("createdAt", { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -269,5 +269,30 @@ export const posts = createTable(
     ),
     postCreatedAtIdx: index("post_created_at_idx").on(post.createdAt),
     postUpdatedAtIdx: index("post_updated_at_idx").on(post.updatedAt),
+  }),
+);
+
+export const likes = createTable(
+  "like",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar("user_id", { length: 255 })
+      .references(() => users.id)
+      .notNull(),
+    type: varchar("type", {
+      enum: ["community", "merchant", "product"],
+    }).notNull(),
+    objectId: varchar("object_id", { length: 255 })
+      .references(() => posts.id || products.id || merchants.id)
+      .notNull(),
+  },
+  (like) => ({
+    likeIdIdx: index("like_id_idx").on(like.id),
+    userIdIdx: index("user_id_idx").on(like.userId),
+    typeIdx: index("type_idx").on(like.type),
+    objectIdIdx: index("object_id_idx").on(like.objectId),
   }),
 );
