@@ -282,9 +282,6 @@ export const likes = createTable(
     userId: varchar("user_id", { length: 255 })
       .references(() => users.id)
       .notNull(),
-    type: varchar("type", {
-      enum: ["community", "merchant", "product"],
-    }).notNull(),
     objectId: varchar("object_id", { length: 255 })
       .references(() => posts.id || products.id || merchants.id)
       .notNull(),
@@ -292,7 +289,6 @@ export const likes = createTable(
   (like) => ({
     likeIdIdx: index("like_id_idx").on(like.id),
     userIdIdx: index("user_id_idx").on(like.userId),
-    typeIdx: index("type_idx").on(like.type),
     objectIdIdx: index("object_id_idx").on(like.objectId),
   }),
 );

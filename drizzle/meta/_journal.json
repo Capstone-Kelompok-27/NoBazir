@@ -36,6 +36,13 @@
       "when": 1726160162623,
       "tag": "0004_dizzy_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1726160683671,
+      "tag": "0005_white_wind_dancer",
+      "breakpoints": true
     }
   ]
 }
