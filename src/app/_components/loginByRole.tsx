@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { RoleContext } from "../_context/roleContext";
 import { type Session } from "next-auth";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface LoginByRoleProp {
   session: Session | null;
@@ -43,10 +44,7 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
     return (
       <>
         <button className="rounded-full p-1 hover:bg-green-700">
-          <img src="/navbar/cart.svg" alt="Cart" width={32} height={32} />
-        </button>
-        <button className="rounded-full p-1 hover:bg-green-700">
-          <img src="/navbar/person.svg" alt="User" width={32} height={32} />
+          <Image src="/navbar/person.svg" alt="User" width={32} height={32} />
         </button>
       </>
     );
@@ -55,9 +53,9 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
       <>
         <button
           onClick={handleCustomerLogin}
-          className="flex h-10 w-32 items-center justify-center rounded-full border border-yellow-500 bg-white p-3 text-yellow-500 hover:bg-green-700"
+          className="flex h-10 w-auto items-center justify-center rounded-full border border-yellow-500 bg-white p-3 text-yellow-500 hover:bg-green-700 md:w-32"
         >
-          Log In
+          Sign Up
         </button>
         <button
           onClick={handleMerchantLogin}
