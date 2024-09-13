@@ -98,23 +98,31 @@ const CreatePost: React.FC<CreatePostProp> = ({ session }) => {
   };
 
   return (
-    <div className="flex w-full">
-      <div className="flex w-1/12 items-start justify-center">
+    <div className="flex w-full -translate-x-5 justify-center md:w-8/12">
+      <div className="flex shrink-0 items-start justify-center px-3">
         <Image
           src={session?.user.image ?? ""}
           alt="user profile image"
-          width={48}
-          height={48}
+          width={36}
+          height={36}
           className="rounded-full"
         />
       </div>
-      <div className="flex w-9/12 flex-col gap-2">
+      <div className="flex w-10/12 flex-col gap-2">
         <input
           type="text"
           name="postTitle"
           placeholder="Post title?"
           value={postTitle}
           onChange={handlePostTitleChange}
+          className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 focus:outline-[#A5BE00]"
+        />
+        <input
+          type="text"
+          name="postTag"
+          placeholder="Post tag?"
+          value={postTag}
+          onChange={handlePostTagChange}
           className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 focus:outline-[#A5BE00]"
         />
         <textarea
@@ -126,8 +134,8 @@ const CreatePost: React.FC<CreatePostProp> = ({ session }) => {
           placeholder="What is happening?"
           className="w-full rounded-xl p-5 focus:outline-[#A5BE00]"
         ></textarea>
-        <div className="flex w-full items-center gap-5">
-          <div className="flex w-4/5 flex-col items-start justify-center gap-2">
+        <div className="flex w-full items-center justify-between gap-5">
+          <div className="flex w-full flex-col items-start justify-center gap-2">
             {imageUrl && (
               <Image
                 src={imageUrl}
@@ -137,32 +145,22 @@ const CreatePost: React.FC<CreatePostProp> = ({ session }) => {
                 height={300}
               />
             )}
-            <div className="flex gap-5">
+            <div className="flex w-full flex-wrap justify-between gap-2">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageFileChange}
-                className="flex max-w-[80%] flex-shrink rounded-3xl bg-[#A5BE00] px-3 py-2 text-sm text-gray-100"
+                className="flex min-w-32 max-w-52 flex-shrink rounded-3xl bg-[#A5BE00] px-3 py-2 text-sm text-gray-100"
               />
-              <input
-                type="text"
-                name="postTag"
-                placeholder="Post tag?"
-                value={postTag}
-                onChange={handlePostTagChange}
-                className="flex h-10 w-2/6 flex-shrink rounded-xl px-3 py-2 focus:outline-[#A5BE00]"
-              />
+              <button
+                onClick={postOnClick}
+                className="flex w-16 justify-center rounded-3xl bg-[#A5BE00] px-2 py-2 font-bold text-gray-100 md:w-20"
+              >
+                Post
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex w-2/12 items-end justify-center">
-        <button
-          onClick={postOnClick}
-          className="mt-7 flex w-3/6 justify-center rounded-3xl bg-[#A5BE00] px-3 py-2 font-bold text-gray-100"
-        >
-          Post
-        </button>
       </div>
     </div>
   );
