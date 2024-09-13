@@ -98,11 +98,11 @@ const SearchPost = () => {
   });
 
   return (
-    <div className="mt-10 flex h-20 w-1/2 flex-col items-start justify-center gap-x-5">
+    <div className="mt-10 flex h-20 w-10/12 flex-col items-start justify-center gap-x-5 md:w-8/12">
       <div className="text-xl font-bold text-[#679436]">Search Post:</div>
       <form
         onSubmit={handleSubmit}
-        className="flex w-full items-center justify-between gap-3"
+        className="flex w-full flex-wrap items-center justify-between gap-3 md:flex-nowrap"
       >
         <input
           type="text"
@@ -119,7 +119,7 @@ const SearchPost = () => {
         </div>
         <button
           type="submit"
-          className="h-10 w-24 rounded-2xl bg-[#679436] p-2 text-white focus:ring-1 focus:ring-inset focus:ring-green-800"
+          className="h-10 w-24 rounded-2xl bg-[#679436] text-white focus:ring-1 focus:ring-inset focus:ring-green-800 md:h-10 md:p-2"
         >
           Explore
         </button>
