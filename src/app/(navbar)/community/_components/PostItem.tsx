@@ -65,8 +65,8 @@ const PostItem: React.FC<postType> = (props) => {
   };
 
   return (
-    <div className="relative mx-10 my-5 flex w-8/12 items-center justify-center rounded-2xl bg-white p-8 pr-0">
-      <div className="flex w-8/12 flex-col gap-2">
+    <div className="relative my-5 flex w-10/12 flex-col items-start rounded-2xl bg-white p-8 md:mx-10 md:w-8/12 md:flex-row md:items-center md:justify-center md:pr-0">
+      <div className="flex flex-col gap-2 md:w-7/12">
         <div className="flex w-full items-end justify-start gap-1">
           <Image
             src={creatorData.image}
@@ -79,17 +79,17 @@ const PostItem: React.FC<postType> = (props) => {
             {creatorData.name}
           </div>
         </div>
-        <div className="text-2xl font-semibold text-[#679436]">
+        <div className="text-xl font-semibold text-[#679436] md:text-2xl">
           {props.postTitle}
         </div>
 
         {props.postTag && (
-          <div className="flex w-fit justify-center rounded-2xl bg-[#A5BE00] px-3 py-2 font-semibold text-gray-100">
+          <div className="flex w-fit justify-center rounded-2xl bg-[#A5BE00] px-3 py-1 font-normal text-gray-100">
             #{props.postTag}
           </div>
         )}
         <div className="text-[#A5BE00]">{props.postContent}</div>
-        <div className="justify- flex items-center gap-0.5 text-[#679436]">
+        <div className="hidden items-center justify-start gap-0.5 text-[#679436] md:flex">
           <Image
             src={heartUrl}
             width={25}
@@ -102,15 +102,27 @@ const PostItem: React.FC<postType> = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex w-4/12 items-center justify-center">
+      <div className="flex w-full items-center justify-start md:w-5/12 md:justify-center">
         <Image
           src={props.postPictureUrl ?? ""}
           width={150}
           height={150}
           onClick={() => setImageClick(true)}
           alt="post image"
-          className="min-h-fit w-4/5 shrink-0 rounded-2xl p-2 py-2"
+          className="my-4 min-h-fit w-4/5 rounded-2xl p-0 md:my-0 md:p-2 md:py-2"
         />
+      </div>
+      <div className="flex items-center justify-start gap-0.5 text-[#679436] md:hidden">
+        <Image
+          src={heartUrl}
+          width={25}
+          height={25}
+          alt="like"
+          onClick={likeClicked}
+        />
+        <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
+          {likeCount}
+        </div>
       </div>
 
       {imageClick && (
