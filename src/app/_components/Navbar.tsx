@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import LoginByRole from "./loginByRole";
 import { getServerAuthSession } from "@/server/auth";
+import Hamburger from "./Hamburger";
 
 const Navbar = async () => {
   const session = await getServerAuthSession();
@@ -36,8 +37,9 @@ const Navbar = async () => {
   else {
     return (
       <div className="max-w-screen fixed left-0 right-0 top-0 z-50 h-28 w-full p-5">
-        <nav className="flex h-16 w-full min-w-40 items-center justify-between rounded-2xl bg-[#679436] px-6 py-3 text-white shadow-md">
-          <div className="flex gap-4">
+        {/* Desktop */}
+        <nav className="hidden h-16 w-full min-w-40 items-center justify-between rounded-2xl bg-[#679436] px-6 py-3 text-white shadow-md md:flex">
+          <div className="flex gap-5">
             <Link href="/" className="text-lg hover:text-green-800">
               Home
             </Link>
@@ -45,14 +47,33 @@ const Navbar = async () => {
               LeftOver
             </Link>
             {session && (
-              <Link href="/community" className="text-lg hover:text-green-800">
-                Community
-              </Link>
+              <>
+                <Link
+                  href="/community"
+                  className="text-lg hover:text-green-800"
+                >
+                  Community
+                </Link>
+                <Link
+                  href="/calorie-tracker"
+                  className="text-lg hover:text-green-800"
+                >
+                  Calorie Tracker
+                </Link>
+              </>
             )}
             <Link href="/about-us" className="text-lg hover:text-green-800">
               About Us
             </Link>
           </div>
+          <div className="flex gap-2 md:gap-4">
+            <LoginByRole session={session} />
+          </div>
+        </nav>
+
+        {/* Mobile */}
+        <nav className="flex h-16 w-full min-w-40 items-center justify-between rounded-2xl bg-[#679436] px-6 py-3 text-white shadow-md md:hidden">
+          <Hamburger session={session} />
           <div className="flex gap-2 md:gap-4">
             <LoginByRole session={session} />
           </div>
