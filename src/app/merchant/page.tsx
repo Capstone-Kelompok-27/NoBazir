@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import MerchantInfo from "./_components/MerchantInfo";
 import MerchantProductRecommend from "./_components/MerchantProductRecommend";
 import ProductList from "./_components/ProductList";
+import Footer from "../_components/Footer";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -20,6 +21,7 @@ export default async function Home() {
       <MerchantInfo session={session} />
       <MerchantProductRecommend />
       <ProductList session={session} />
+      <Footer />
     </main>
   );
 }
