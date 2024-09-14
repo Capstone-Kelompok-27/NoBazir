@@ -1,7 +1,8 @@
 "use client";
 
+import { CalorieContext } from "@/app/_context/calorieContext";
 import { api } from "@/trpc/react";
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 interface trackDataInputType {
   calorie: number;
@@ -11,6 +12,14 @@ interface trackDataInputType {
 }
 
 const CreateCalorie = () => {
+  const calorieContext = useContext(CalorieContext);
+  if (!calorieContext) {
+    throw new Error(
+      "Page component must be used within a CalorieContextProvider",
+    );
+  }
+  const { setUserCalorie } = calorieContext;
+
   // Date placeholder
   const now = new Date();
   const year = now.getFullYear();
@@ -32,6 +41,14 @@ const CreateCalorie = () => {
     note: "",
   });
 
+  const getUserCalorieByDate =
+    api.calorieTracker.getUserCalorieByDate.useQuery("");
+  useEffect(() => {
+    if (getUserCalorieByDate.isSuccess) {
+      setUserCalorie(getUserCalorieByDate.data);
+    }
+  }, [getUserCalorieByDate.data]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
     setFormValues((prev) => ({
@@ -44,7 +61,7 @@ const CreateCalorie = () => {
     e.preventDefault();
 
     await createTrack.mutateAsync(formValues, {
-      onSuccess: () => {
+      onSuccess: async () => {
         setFormValues({
           calorie: 0,
           date: "",
@@ -56,6 +73,7 @@ const CreateCalorie = () => {
         console.error("Error creating calorie track: ", error.message);
       },
     });
+    await getUserCalorieByDate.refetch();
   };
 
   return (
