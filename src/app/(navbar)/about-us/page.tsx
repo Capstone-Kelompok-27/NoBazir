@@ -46,17 +46,17 @@ const Page = () => {
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/nayaka.jpg",
       name: "Zulfaqqar Nayaka",
       role: "Game Developer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/joel.jpg",
       name: "Joel Hotlan H S",
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/furhun.jpeg",
       name: "Muh. Farhan",
       role: "Software Engineer",
     },
@@ -90,6 +90,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+
       <div className="mx-6 mt-10 font-montserrat text-[40px] font-extrabold text-[#679436]">
         Our Goals
       </div>
@@ -100,41 +101,61 @@ const Page = () => {
           ))}
         </div>
       </div>
+
       <div className="mx-6 mt-10 font-montserrat text-[30px] font-extrabold text-[#679436]">
         Meet Our Team
       </div>
-      
-      <div className="flex flex-col items-center">
-      <div className="flex flex-row">
-        <div className="mx-2 my-2 flex h-auto w-72 flex-col items-center rounded-2xl border-2 border-gray-500 bg-[#679436] bg-opacity-[0.28]">
-          <img
-            src="/navbar/ourteam/apple.jpg"
-            alt="foto"
-            className="my-4 h-32 w-32 rounded-full object-cover hover:scale-110 hover:shadow-2xl"
-          />
-          <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436] hover:scale-105 hover:shadow-2xl">
-            <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold ">
-            Zheannetta Apple
-            </p>
-            <p className="text-center font-source-sans text-[16px]">Project Manager</p>
+
+      <div className="hidden lg:flex flex-col items-center">
+        <div className="flex flex-row">
+          <div className="mx-2 my-2 flex h-auto w-72 flex-col items-center rounded-2xl border-2 border-gray-500 bg-[#679436] bg-opacity-[0.28]">
+            <img
+              src="/navbar/ourteam/apple.jpg"
+              alt="foto"
+              className="my-4 h-32 w-32 rounded-full object-cover hover:scale-110 hover:shadow-2xl"
+            />
+            <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436] hover:scale-105 hover:shadow-2xl">
+              <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold">
+                Zheannetta Apple
+              </p>
+              <p className="text-center font-source-sans text-[16px]">
+                Project Manager
+              </p>
+            </div>
+          </div>
+          <div className="mx-2 my-2 flex h-auto w-72 flex-col items-center rounded-2xl border-2 border-gray-500 bg-[#679436] bg-opacity-[0.28]">
+            <img
+              src="/navbar/ourteam/andi.jpg"
+              alt="foto"
+              className="my-4 h-32 w-32 rounded-full object-cover hover:scale-110 hover:shadow-2xl"
+            />
+            <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436] hover:scale-105 hover:shadow-2xl">
+              <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold">
+                Andi Farhan Hidayat
+              </p>
+              <p className="text-center font-source-sans text-[16px]">
+                Software Engineer
+              </p>
+            </div>
           </div>
         </div>
-          <div className="mx-2 my-2 flex h-auto w-72 flex-col items-center rounded-2xl border-2 border-gray-500 bg-[#679436] bg-opacity-[0.28]">
-          <img
-            src="/navbar/ourteam/andi.jpg"
-            alt="foto"
-            className="my-4 h-32 w-32 rounded-full object-cover hover:scale-110 hover:shadow-2xl"
-          />
-          <div className="mb-4 flex w-11/12 flex-col rounded-2xl bg-white p-2 text-[#679436] hover:scale-105 hover:shadow-2xl">
-            <p className="whitespace-nowrap text-center font-montserrat text-[22px] font-semibold ">
-            Andi Farhan Hidayat
-            </p>
-            <p className="text-center font-source-sans text-[16px]">Software Engineer</p>
+
+        <div className="mx-6 mb-10 mt-2 flex items-center justify-center">
+          <div className="mt-2 grid grid-cols-3">
+            {ourTeam.map((item, index) => (
+              <OurTeam
+                key={index}
+                foto={item.path}
+                name={item.name}
+                role={item.role}
+              />
+            ))}
           </div>
         </div>
       </div>
-      <div className="mx-6 mb-10 mt-2 flex items-center justify-center">
-        <div className="mt-2 grid grid-cols-3">
+
+      <div className="lg:hidden mx-6 mb-10 mt-2 flex justify-center">
+        <div className="grid grid-cols-1 gap-6">
           {ourTeam.map((item, index) => (
             <OurTeam
               key={index}
@@ -146,8 +167,7 @@ const Page = () => {
         </div>
       </div>
 
-      </div>
-    <Footer />
+      <Footer />
     </div>
   );
 };
