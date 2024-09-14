@@ -19,78 +19,126 @@ interface postType {
 
 const PostItem: React.FC<postType> = (props) => {
   const [alreadyLike, setAlreadyLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
   const [heartUrl, setHeartUrl] = useState<string>("/heart.svg");
-  const [userList, setUserList] = useState<string>("");
+  const [likeCount, setLikeCount] = useState<number>(props.likeCount);
+  const [creatorData, setCreatorData] = useState<{
+    name: string;
+    image: string;
+  }>({ name: "", image: "" });
+  const [imageClick, setImageClick] = useState<boolean>(false);
 
+  const likePostApi = api.community.updateLikePost.useMutation();
+  const alreadyLikeApi = api.community.getUserLikePost.useQuery(props.id);
+  const creator = api.auth.getByUserId.useQuery(props.createdById);
+
+  // Check already like from db
   useEffect(() => {
-    if (props.userIdLikeList) {
-      setUserList(props.userIdLikeList);
+    if (alreadyLikeApi.data !== undefined) {
+      console.log(alreadyLikeApi.data);
+      setAlreadyLike(alreadyLikeApi.data);
+      setHeartUrl(alreadyLikeApi.data ? "/heart_filled.svg" : "/heart.svg");
     }
-  }, [props.userIdLikeList]);
+  }, [alreadyLikeApi.data]);
 
-  if (userList === undefined || userList === null) {
-    setUserList("");
-  }
+  // Fetch creator
+  useEffect(() => {
+    if (creator.isSuccess && creator.data[0]) {
+      setCreatorData({
+        name: creator.data[0].name ?? "",
+        image: creator.data[0].image ?? "",
+      });
+    }
+  }, [creator.data, creator.isSuccess]);
 
-  const likePostApi = api.community.updateLikePost.useQuery(
-    {
-      likeCount: likeCount,
+  const likeClicked = async () => {
+    const newLikeCount = alreadyLike ? likeCount - 1 : likeCount + 1;
+    setLikeCount(newLikeCount);
+    setHeartUrl(!alreadyLike ? "/heart_filled.svg" : "/heart.svg");
+    setAlreadyLike(!alreadyLike);
+
+    await likePostApi.mutateAsync({
+      likeCount: newLikeCount,
       postId: props.id,
-    },
-    { enabled: likeCount != props.likeCount },
-  );
-  const likePostData = likePostApi.data;
+    });
 
-  useEffect(() => {
-    if (likePostData) {
-      setUserList(likePostData.userIdLikeList ?? "");
-      setLikeCount(likePostData.likeCount ?? props.likeCount);
-    }
-  }, [likePostData, props.likeCount]);
-
-  const likeClicked = () => {
-    if (!alreadyLike) {
-      setLikeCount((prev) => prev + 1);
-      setAlreadyLike(true);
-      setHeartUrl("/heart_filled.svg");
-    } else {
-      setLikeCount((prev) => prev - 1);
-      setAlreadyLike(false);
-      setHeartUrl("/heart.svg");
-    }
+    await alreadyLikeApi.refetch();
   };
 
   return (
-    <div className="relative mx-10 my-5 flex w-9/12 items-start justify-center rounded-2xl bg-white p-8 pr-0">
-      <div className="flex w-4/6 flex-col gap-2">
-        <div className="text-2xl font-semibold text-[#679436]">
+    <div className="relative my-5 flex w-10/12 flex-col items-start rounded-2xl bg-white p-8 md:mx-10 md:w-8/12 md:flex-row md:items-center md:justify-center md:pr-0">
+      <div className="flex flex-col gap-2 md:w-7/12">
+        <div className="flex w-full items-end justify-start gap-1">
+          <Image
+            src={creatorData.image}
+            alt="user profile image"
+            width={48}
+            height={48}
+            className="w-[25px] rounded-full"
+          />
+          <div className="text-sm font-semibold text-slate-700">
+            {creatorData.name}
+          </div>
+        </div>
+        <div className="text-xl font-semibold text-[#679436] md:text-2xl">
           {props.postTitle}
         </div>
 
-        <div className="flex w-fit justify-center rounded-2xl bg-[#A5BE00] px-3 py-2 font-semibold text-gray-100">
-          #{props.postTag}
-        </div>
+        {props.postTag && (
+          <div className="flex w-fit justify-center rounded-2xl bg-[#A5BE00] px-3 py-1 font-normal text-gray-100">
+            #{props.postTag}
+          </div>
+        )}
         <div className="text-[#A5BE00]">{props.postContent}</div>
-        <div
-          className="justify- flex items-center gap-0.5 text-[#679436]"
-          onClick={likeClicked}
-        >
-          <Image src={heartUrl} width={25} height={25} alt="like" />
+        <div className="hidden items-center justify-start gap-0.5 text-[#679436] md:flex">
+          <Image
+            src={heartUrl}
+            width={25}
+            height={25}
+            alt="like"
+            onClick={likeClicked}
+          />
           <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
             {likeCount}
           </div>
         </div>
       </div>
-      <div className="flex w-2/6 items-center justify-center">
+      <div className="flex w-full items-center justify-start md:w-5/12 md:justify-center">
         <Image
           src={props.postPictureUrl ?? ""}
           width={150}
           height={150}
+          onClick={() => setImageClick(true)}
           alt="post image"
-          className="min-h-fit w-4/5 shrink-0 rounded-2xl p-2 py-2"
+          className="my-4 min-h-fit w-4/5 rounded-2xl p-0 md:my-0 md:p-2 md:py-2"
         />
       </div>
+      <div className="flex items-center justify-start gap-0.5 text-[#679436] md:hidden">
+        <Image
+          src={heartUrl}
+          width={25}
+          height={25}
+          alt="like"
+          onClick={likeClicked}
+        />
+        <div className="flex translate-y-[1.3px] items-end justify-center text-xl">
+          {likeCount}
+        </div>
+      </div>
+
+      {imageClick && (
+        <div
+          className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-slate-500/50"
+          onClick={() => setImageClick(false)}
+        >
+          <Image
+            src={props.postPictureUrl ?? ""}
+            width={150}
+            height={150}
+            alt="post image"
+            className="max-w-screen max-h-screen w-2/5 shrink-0 rounded-2xl p-2"
+          />
+        </div>
+      )}
     </div>
   );
 };

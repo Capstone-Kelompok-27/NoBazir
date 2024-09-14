@@ -5,6 +5,7 @@ import CreatePost from "./_components/CreatePost";
 import SearchPost from "./_components/SearchPost";
 import PostList from "./_components/PostList";
 import { redirect } from "next/navigation";
+import Footer from "@/app/_components/Footer";
 
 const Page = async () => {
   const session = await getServerAuthSession();
@@ -20,6 +21,7 @@ const Page = async () => {
         <SearchPost />
         <PostList />
       </div>
+      <Footer />
     </div>
   );
 };

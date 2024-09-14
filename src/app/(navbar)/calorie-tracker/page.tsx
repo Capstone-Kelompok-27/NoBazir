@@ -1,13 +1,13 @@
+import Footer from "@/app/_components/Footer";
 import Navbar from "@/app/_components/Navbar";
 import React from "react";
-import OrderItem from "../components/OrderItem";
-import Footer from "@/app/_components/Footer";
+import CalorieTracker from "./components/CalorieTracker";
 
 const page = () => {
   return (
-    <div className="w-full">
+    <div>
       <Navbar />
-      <OrderItem />
+      <CalorieTracker />
       <Footer />
     </div>
   );
