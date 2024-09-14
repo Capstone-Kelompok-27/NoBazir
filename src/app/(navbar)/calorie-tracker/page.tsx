@@ -8,7 +8,7 @@ const page = () => {
     <div>
       <Navbar />
       <CalorieTracker />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -61,7 +61,7 @@ const CreateCalorie = () => {
   return (
     <div className="flex w-full justify-center">
       <form
-        className="flex w-4/5 flex-col gap-3 lg:w-1/2"
+        className="flex w-4/5 flex-col gap-3 rounded-xl bg-gray-200/50 p-6 shadow-md lg:w-1/2"
         onSubmit={handleSubmit}
       >
         <div className="flex gap-3">
