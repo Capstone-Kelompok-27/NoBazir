@@ -55,13 +55,39 @@ export const calorieRouter = createTRPCRouter({
     .input(
       z.object({
         calorie: z.number().positive(),
-        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        time: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/), // hh:mm format,
+        date: z
+          .string()
+          .regex(/^\d{4}-\d{2}-\d{2}$/)
+          .optional()
+          .default(""),
+        time: z
+          .string()
+          .regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/)
+          .default(""), // hh:mm format,
+        note: z.string().optional().default(""),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const { calorie, date, time } = input;
+      const { calorie, note } = input;
+      let { date, time } = input;
+
+      // default date
+      if (date === "") {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        date = `${year}-${month}-${day}`;
+      }
+
+      // default time
+      if (time === "") {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        time = `${hours}:${minutes}`;
+      }
 
       try {
         await ctx.db.insert(calorieTracker).values({
@@ -69,6 +95,7 @@ export const calorieRouter = createTRPCRouter({
           calorie: calorie,
           date: date,
           time: time,
+          note: note,
         });
       } catch (error) {
         console.log(error);
@@ -116,11 +143,12 @@ export const calorieRouter = createTRPCRouter({
         calorie: z.number().positive(),
         date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
         time: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/), // hh:mm format,
+        note: z.string().optional().default(""),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const { calorie, date, time } = input;
+      const { calorie, date, time, note } = input;
 
       try {
         await ctx.db
@@ -129,6 +157,7 @@ export const calorieRouter = createTRPCRouter({
             calorie: calorie,
             date: date,
             time: time,
+            note: note,
           })
           .where(eq(calorieTracker.userId, userId));
       } catch (error) {
