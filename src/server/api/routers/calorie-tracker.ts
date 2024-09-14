@@ -8,9 +8,20 @@ import { TRPCError } from "@trpc/server";
 
 export const calorieRouter = createTRPCRouter({
   getUserCalorieByDate: protectedProcedure
-    .input(z.string().regex(/^\d{4}-\d{2}-\d{2}$/))
-    .query(async ({ ctx, input: date }) => {
+    .input(z.string().default(""))
+    .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      let date = input;
+
+      // default date
+      if (date === "") {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        date = `${year}-${month}-${day}`;
+      }
+
       const yearMonth = date.slice(0, 7);
 
       try {
