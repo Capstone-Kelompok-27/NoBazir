@@ -56,17 +56,19 @@ export const calorieRouter = createTRPCRouter({
       z.object({
         calorie: z.number().positive(),
         date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        time: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/), // hh:mm format,
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const { calorie, date } = input;
+      const { calorie, date, time } = input;
 
       try {
         await ctx.db.insert(calorieTracker).values({
           userId: userId,
           calorie: calorie,
           date: date,
+          time: time,
         });
       } catch (error) {
         console.log(error);
@@ -113,11 +115,12 @@ export const calorieRouter = createTRPCRouter({
       z.object({
         calorie: z.number().positive(),
         date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        time: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/), // hh:mm format,
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const { calorie, date } = input;
+      const { calorie, date, time } = input;
 
       try {
         await ctx.db
@@ -125,6 +128,7 @@ export const calorieRouter = createTRPCRouter({
           .set({
             calorie: calorie,
             date: date,
+            time: time,
           })
           .where(eq(calorieTracker.userId, userId));
       } catch (error) {

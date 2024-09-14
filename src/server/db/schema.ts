@@ -305,6 +305,7 @@ export const calorieTracker = createTable(
       .notNull(),
     calorie: integer("calorie").notNull().default(0),
     date: varchar("date", { length: 10 }).notNull(),
+    time: varchar("time", { length: 5 }),
     createdAt: timestamp("createdAt", { withTimezone: true })
       .notNull()
       .defaultNow(),

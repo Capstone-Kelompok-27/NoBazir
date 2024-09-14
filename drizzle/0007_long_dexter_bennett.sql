@@ -1,0 +1,1 @@
+ALTER TABLE "NoBazir_calorie_tracker" ADD COLUMN "time" varchar(5);
