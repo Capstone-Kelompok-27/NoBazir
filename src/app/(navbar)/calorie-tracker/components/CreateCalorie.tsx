@@ -61,7 +61,7 @@ const CreateCalorie = () => {
     e.preventDefault();
 
     await createTrack.mutateAsync(formValues, {
-      onSuccess: async () => {
+      onSuccess: () => {
         setFormValues({
           calorie: 0,
           date: "",
