@@ -19,9 +19,9 @@ const CalorieList = () => {
         <table className="w-full min-w-56 table-auto text-left">
           <thead>
             <tr>
-              {TABLE_HEAD.map((head) => (
+              {TABLE_HEAD.map((head, index) => (
                 <th
-                  key={head}
+                  key={index}
                   className="border-b border-slate-200 bg-gray-200 p-4 text-slate-600"
                 >
                   {head}
@@ -37,7 +37,10 @@ const CalorieList = () => {
                 : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr className="text-slate-500 odd:bg-white even:bg-slate-100/50">
+                <tr
+                  key={index}
+                  className="text-slate-500 odd:bg-white even:bg-slate-100/50"
+                >
                   <td className={classes + " min-w-20 text-nowrap"}>{date}</td>
                   <td className={classes}>{time}</td>
                   <td className={classes}>{calorie}</td>

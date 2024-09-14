@@ -49,9 +49,9 @@ const SearchCalorie = () => {
     e.preventDefault();
     if (formValues.year !== "" && formValues.month !== "") {
       setDate(`${formValues.year}-${formValues.month}-00`);
-    } else if (formValues.year === "") {
+    } else if (formValues.year === "" && formValues.month !== "") {
       setDate(`${defaultYear}-${formValues.month}-00`);
-    } else if (formValues.month === "") {
+    } else if (formValues.year !== "" && formValues.month === "") {
       setDate(`${formValues.year}-${defaultMonth}-00`);
     } else {
       setDate("");
