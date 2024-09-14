@@ -15,7 +15,12 @@ export const calorieRouter = createTRPCRouter({
 
       try {
         return await ctx.db
-          .select()
+          .select({
+            calorie: calorieTracker.calorie,
+            date: calorieTracker.date,
+            time: calorieTracker.time,
+            note: calorieTracker.note,
+          })
           .from(calorieTracker)
           .where(
             and(
@@ -23,7 +28,7 @@ export const calorieRouter = createTRPCRouter({
               ilike(calorieTracker.date, `%${yearMonth}%`),
             ),
           )
-          .orderBy(asc(calorieTracker.date));
+          .orderBy(asc(calorieTracker.date), asc(calorieTracker.time));
       } catch (error) {
         console.log(error);
         throw new TRPCError({

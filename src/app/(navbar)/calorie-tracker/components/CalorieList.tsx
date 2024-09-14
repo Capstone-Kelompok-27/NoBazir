@@ -1,28 +1,18 @@
-import React from "react";
+"use client";
+
+import { CalorieContext } from "@/app/_context/calorieContext";
+import React, { useContext } from "react";
 
 const TABLE_HEAD = ["Date", "Time", "Calorie", "Note", ""];
-const TABLE_ROWS = [
-  {
-    date: "2024-14-09",
-    time: "13:00",
-    calorie: "200",
-    note: "Nasi Goreng",
-  },
-  {
-    date: "2024-14-09",
-    time: "14:00",
-    calorie: "200",
-    note: "Nasi Goreng",
-  },
-  {
-    date: "2024-14-09",
-    time: "15:00",
-    calorie: "200",
-    note: "Nasi Goreng",
-  },
-];
 
 const CalorieList = () => {
+  const calorieContext = useContext(CalorieContext);
+  if (!calorieContext) {
+    throw new Error(
+      "Page component must be used within a CalorieContextProvider",
+    );
+  }
+  const { userCalorie } = calorieContext;
   return (
     <div className="flex w-full justify-center">
       <div className="w-5/6 overflow-hidden overflow-x-auto rounded-2xl shadow-md lg:w-3/5">
@@ -40,8 +30,8 @@ const CalorieList = () => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(({ date, time, calorie, note }, index) => {
-              const isLast = index === TABLE_ROWS.length - 1;
+            {userCalorie.map(({ date, time, calorie, note }, index) => {
+              const isLast = index === userCalorie.length - 1;
               const classes = isLast
                 ? "p-4"
                 : "p-4 border-b border-blue-gray-50";

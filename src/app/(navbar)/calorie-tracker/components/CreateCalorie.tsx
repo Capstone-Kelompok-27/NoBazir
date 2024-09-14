@@ -87,7 +87,7 @@ const CreateCalorie = () => {
               className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
             />
           </div>
-          <div className="flex w-full flex-shrink flex-col items-start gap-1">
+          <div className="hidden w-full flex-shrink flex-col items-start gap-1 sm:flex">
             <div className="font-semibold text-slate-600">Calorie:</div>
             <input
               type="number"
@@ -95,18 +95,21 @@ const CreateCalorie = () => {
               placeholder="Calorie:"
               onChange={handleChange}
               value={formValues.calorie}
-              className="hidden h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00] sm:flex"
+              className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
             />
           </div>
         </div>
-        <input
-          type="number"
-          name="calorie"
-          placeholder="Calorie:"
-          onChange={handleChange}
-          value={formValues.calorie}
-          className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00] sm:hidden"
-        />
+        <div className="flex w-full flex-shrink flex-col items-start gap-1 sm:hidden">
+          <div className="font-semibold text-slate-600">Calorie:</div>
+          <input
+            type="number"
+            name="calorie"
+            placeholder="Calorie:"
+            onChange={handleChange}
+            value={formValues.calorie}
+            className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
+          />
+        </div>
         <input
           type="text"
           name="note"
