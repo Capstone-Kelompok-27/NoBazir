@@ -43,6 +43,13 @@
       "when": 1726160683671,
       "tag": "0005_white_wind_dancer",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726279293287,
+      "tag": "0006_acoustic_thunderbolt",
+      "breakpoints": true
     }
   ]
 }

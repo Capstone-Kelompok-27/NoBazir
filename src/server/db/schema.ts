@@ -292,3 +292,52 @@ export const likes = createTable(
     objectIdIdx: index("object_id_idx").on(like.objectId),
   }),
 );
+
+export const calorieTracker = createTable(
+  "calorie_tracker",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar("user_id", { length: 255 })
+      .references(() => users.id)
+      .notNull(),
+    calorie: integer("calorie").notNull().default(0),
+    date: varchar("date", { length: 10 }).notNull(),
+    createdAt: timestamp("createdAt", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+  },
+  (calorie) => ({
+    calorieUserIdIdx: index("calorie_user_id_idx").on(calorie.userId),
+    calorieIdx: index("calorie_idx").on(calorie.calorie),
+    calorieDateIdx: index("calorie_date_idx").on(calorie.date),
+  }),
+);
+
+export const userCalorie = createTable(
+  "user_calorie",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar("user_id", { length: 255 })
+      .references(() => users.id)
+      .notNull(),
+    calorieNeeds: integer("calorie_needs").notNull().default(0),
+    createdAt: timestamp("createdAt", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+  },
+  (user) => ({
+    calorieNeedUserIdIdx: index("calorie_need_user_id_idx").on(user.userId),
+  }),
+);
