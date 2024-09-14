@@ -55,20 +55,14 @@ export const calorieRouter = createTRPCRouter({
     .input(
       z.object({
         calorie: z.number().positive(),
-        date: z
-          .string()
-          .regex(/^\d{4}-\d{2}-\d{2}$/)
-          .optional()
-          .default(""),
-        time: z
-          .string()
-          .regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/)
-          .default(""), // hh:mm format,
-        note: z.string().optional().default(""),
+        date: z.string().default(""),
+        time: z.string().default(""),
+        note: z.string().default(""),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      console.log(userId);
       const { calorie, note } = input;
       let { date, time } = input;
 
