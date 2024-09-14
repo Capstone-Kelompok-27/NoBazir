@@ -46,17 +46,17 @@ const Page = () => {
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/nayaka.jpg",
       name: "Zulfaqqar Nayaka",
       role: "Game Developer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/joel.jpg",
       name: "Joel Hotlan H S",
       role: "Software Engineer",
     },
     {
-      path: "/navbar/ourteam/anthony.jpg",
+      path: "/navbar/ourteam/furhun.jpeg",
       name: "Muh. Farhan",
       role: "Software Engineer",
     },
