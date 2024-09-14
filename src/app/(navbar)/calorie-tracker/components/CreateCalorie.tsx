@@ -43,7 +43,7 @@ const CreateCalorie = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    createTrack.mutateAsync(formValues, {
+    await createTrack.mutateAsync(formValues, {
       onSuccess: () => {
         setFormValues({
           calorie: 0,
