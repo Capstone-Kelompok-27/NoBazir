@@ -1,4 +1,14 @@
-import React from "react";
+"use client";
+
+import { api } from "@/trpc/react";
+import React, { useState } from "react";
+
+interface trackDataInputType {
+  calorie: number;
+  date: string;
+  time: string;
+  note: string;
+}
 
 const CreateCalorie = () => {
   // Date placeholder
@@ -13,39 +23,96 @@ const CreateCalorie = () => {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const defaultTime = `${hours}:${minutes}`;
 
+  const createTrack = api.calorieTracker.createUserCalorie.useMutation();
+
+  const [formValues, setFormValues] = useState<trackDataInputType>({
+    calorie: 0,
+    date: "",
+    time: "",
+    note: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: type === "number" ? parseInt(value) : value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createTrack.mutateAsync(formValues, {
+      onSuccess: () => {
+        setFormValues({
+          calorie: 0,
+          date: "",
+          time: "",
+          note: "",
+        });
+      },
+      onError: (error) => {
+        console.error("Error creating calorie track: ", error.message);
+      },
+    });
+  };
+
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-4/5 flex-col gap-3 lg:w-1/2">
+      <form
+        className="flex w-4/5 flex-col gap-3 lg:w-1/2"
+        onSubmit={handleSubmit}
+      >
         <div className="flex gap-3">
-          <input
-            type="text"
-            name="date"
-            placeholder={defaultDate}
-            className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
-          />
-          <input
-            type="text"
-            name="time"
-            placeholder={defaultTime}
-            className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
-          />
-          <input
-            type="text"
-            name="calorie"
-            placeholder="Calorie:"
-            className="hidden h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00] sm:flex"
-          />
+          <div className="flex w-full flex-shrink flex-col items-start gap-1">
+            <div className="font-semibold text-slate-600">Date:</div>
+            <input
+              type="text"
+              name="date"
+              placeholder={defaultDate}
+              onChange={handleChange}
+              value={formValues.date}
+              className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
+            />
+          </div>
+          <div className="flex w-full flex-shrink flex-col items-start gap-1">
+            <div className="font-semibold text-slate-600">Time:</div>
+            <input
+              type="text"
+              name="time"
+              placeholder={defaultTime}
+              onChange={handleChange}
+              value={formValues.time}
+              className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
+            />
+          </div>
+          <div className="flex w-full flex-shrink flex-col items-start gap-1">
+            <div className="font-semibold text-slate-600">Calorie:</div>
+            <input
+              type="number"
+              name="calorie"
+              placeholder="Calorie:"
+              onChange={handleChange}
+              value={formValues.calorie}
+              className="hidden h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00] sm:flex"
+            />
+          </div>
         </div>
         <input
-          type="text"
+          type="number"
           name="calorie"
           placeholder="Calorie:"
+          onChange={handleChange}
+          value={formValues.calorie}
           className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00] sm:hidden"
         />
         <input
           type="text"
           name="note"
           placeholder="Note:"
+          onChange={handleChange}
+          value={formValues.note}
           className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
         />
         <div className="flex w-full justify-center">
@@ -56,7 +123,7 @@ const CreateCalorie = () => {
             Add Track
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
