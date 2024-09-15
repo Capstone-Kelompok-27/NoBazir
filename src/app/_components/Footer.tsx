@@ -18,7 +18,6 @@ const Footer = () => {
           <hr className="mt-6 border-t-2 border-[#C1C7CD]" />
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between w-full">
             <div className="text-[12px] sm:text-[14px]">NoBazir @ 2024. All rights reserved.</div>
-            <Logout />
             <div className="flex items-center mt-2 sm:mt-0">
               <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" className="mx-2 sm:mx-4">
                 <img src="./navbar/youtube.svg" alt="YouTube" className="w-6 sm:w-8" />
