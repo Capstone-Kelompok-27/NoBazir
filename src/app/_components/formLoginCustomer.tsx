@@ -79,7 +79,7 @@ const FormLoginCustomer: React.FC<FormLoginCustomerProp> = ({ session }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-10">
+    <form onSubmit={handleSubmit} className="p-3 md:p-10">
       <span className="font-semibold text-green-600">
         Name: {session.user.name}
       </span>

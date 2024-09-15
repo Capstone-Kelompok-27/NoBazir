@@ -88,7 +88,7 @@ const FormLoginMerchant: React.FC<FormLoginMerchantProp> = ({ session }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-10">
+    <form onSubmit={handleSubmit} className="p-3 md:p-10 w-full">
       <span className="font-semibold text-green-600">
         Name: {session.user.name}
       </span>

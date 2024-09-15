@@ -17,7 +17,7 @@ const CalorieCalculator = () => {
   }
 
   const handleSubmit = () => {
-    pass;
+    console.log("");
   };
 
   return (

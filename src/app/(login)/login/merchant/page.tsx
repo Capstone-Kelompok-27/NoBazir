@@ -10,22 +10,27 @@ const page = async () => {
   }
 
   return (
-    <div className="flex flex-row min-h-screen">
-      <div className="flex flex-col justify-center p-8 w-1/2 rounded-lg mx-4 jus">
+    <div className="flex min-h-screen flex-row">
+      <div className="jus mx-4 flex w-full flex-col justify-center rounded-lg p-8 md:w-1/2">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-green-600 text-center">Welcome to NoBazir</h1>
-          <p className="text-green-500 mt-2 text-center">Please provide your business details below</p>
+          <h1 className="text-center text-3xl font-bold text-green-600">
+            Welcome to NoBazir
+          </h1>
+          <p className="mt-2 text-center text-green-500">
+            Please provide your business details below
+          </p>
         </div>
         <FormLoginMerchant session={session} />
       </div>
-      <div className="relative w-1/2">
-      <Image
+      <div className="relative hidden w-1/2 md:flex">
+        <Image
           src="/navbar/landing/merchant.png"
           alt="Merchant"
           layout="fill"
           objectFit="cover"
-          className="rounded-l-xl"/>
-              </div>
+          className="rounded-l-xl"
+        />
+      </div>
     </div>
   );
 };
