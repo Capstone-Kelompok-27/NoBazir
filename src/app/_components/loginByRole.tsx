@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RoleContext } from "../_context/roleContext";
 import { type Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Logout from "./logout";
 
 interface LoginByRoleProp {
   session: Session | null;
@@ -40,12 +41,22 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
     }
   };
 
+  const [profileClicked, setProfileClicked] = useState<boolean>(false);
+
   if (session) {
     return (
       <>
-        <button className="rounded-full p-1 hover:bg-green-700">
+        <button
+          className="rounded-full p-1 hover:bg-green-700"
+          onClick={() => setProfileClicked((prev) => !prev)}
+        >
           <Image src="/navbar/person.svg" alt="User" width={32} height={32} />
         </button>
+        {profileClicked && (
+          <div className="absolute right-5 top-10">
+            <Logout />
+          </div>
+        )}
       </>
     );
   } else {
