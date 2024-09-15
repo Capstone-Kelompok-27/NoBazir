@@ -53,7 +53,7 @@ const LoginByRole: React.FC<LoginByRoleProp> = ({ session }) => {
           <Image src="/navbar/person.svg" alt="User" width={32} height={32} />
         </button>
         {profileClicked && (
-          <div className="absolute right-5 top-20">
+          <div className="absolute right-5 top-16">
             <Logout />
           </div>
         )}
