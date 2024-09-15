@@ -13,7 +13,7 @@ const CalorieTracker = () => {
       <CreateCalorie />
       <SearchCalorie />
       <CalorieList />
-      <EditCalorie />
+      {/* <EditCalorie /> */}
     </div>
   );
 };

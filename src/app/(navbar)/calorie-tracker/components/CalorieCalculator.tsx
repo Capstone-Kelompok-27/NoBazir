@@ -1,7 +1,7 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CalorieCalculator = () => {
   // States
@@ -9,15 +9,59 @@ const CalorieCalculator = () => {
     0,
   );
   const [modalClicked, setModalClicked] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState<{
+    age: number;
+    height: number;
+    weight: number;
+    sex: string;
+  }>({ age: 0, height: 0, weight: 0, sex: "male" });
 
   const userCalorieNeedsApi = api.calorieTracker.getUserCalorieNeeds.useQuery();
 
-  if (userCalorieNeedsApi.isSuccess) {
-    setUserCalorieNeeds(userCalorieNeedsApi.data?.calorieNeeds ?? 0);
-  }
+  const createUserCalorieNeeds =
+    api.calorieTracker.createUserCalorieNeeds.useMutation();
 
-  const handleSubmit = () => {
-    console.log("");
+  const updateUserCalorieNeeds =
+    api.calorieTracker.updateUserCalorieNeeds.useMutation();
+
+  useEffect(() => {
+    if (userCalorieNeedsApi.isSuccess) {
+      setUserCalorieNeeds(userCalorieNeedsApi.data?.calorieNeeds ?? 0);
+    }
+  }, [userCalorieNeedsApi.data?.calorieNeeds, userCalorieNeedsApi.isSuccess]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value, type } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: type === "number" ? parseInt(value) : value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    let calorieNeeds = 0;
+
+    if (formValues.sex === "male") {
+      calorieNeeds =
+        66 +
+        Math.round(13.7 * formValues.weight) +
+        5 * formValues.height -
+        Math.round(6.8 * formValues.age);
+    } else {
+      calorieNeeds =
+        655 +
+        Math.round(9.6 * formValues.weight) +
+        Math.round(1.8 * formValues.height) -
+        Math.round(4.7 * formValues.age);
+    }
+
+    if (userCalorieNeeds === 0) {
+      await createUserCalorieNeeds.mutateAsync(calorieNeeds);
+    } else {
+      await updateUserCalorieNeeds.mutateAsync(calorieNeeds);
+    }
   };
 
   return (
@@ -28,12 +72,14 @@ const CalorieCalculator = () => {
             Your Calorie Needs: {userCalorieNeeds}
           </div>
         )}
-        <div
-          onClick={() => setModalClicked((prev) => !prev)}
-          className="font-semibold text-white"
-        >
-          Click to Set Calorie Needs!
-        </div>
+        {userCalorieNeeds === 0 && (
+          <div
+            onClick={() => setModalClicked((prev) => !prev)}
+            className="font-semibold text-white"
+          >
+            Click to Set Calorie Needs!
+          </div>
+        )}
       </div>
 
       {modalClicked && (
@@ -57,6 +103,8 @@ const CalorieCalculator = () => {
                 type="number"
                 name="age"
                 placeholder="your age"
+                value={formValues?.age}
+                onChange={handleChange}
                 className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
               />
             </div>
@@ -68,6 +116,8 @@ const CalorieCalculator = () => {
                 type="number"
                 name="height"
                 placeholder="in centimeters"
+                value={formValues?.height}
+                onChange={handleChange}
                 className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
               />
             </div>
@@ -79,6 +129,8 @@ const CalorieCalculator = () => {
                 type="number"
                 name="weight"
                 placeholder="in kilograms"
+                value={formValues?.weight}
+                onChange={handleChange}
                 className="flex h-10 w-full flex-shrink rounded-xl px-5 py-2 ring-1 ring-gray-300 focus:outline-[#A5BE00]"
               />
             </div>
@@ -87,9 +139,11 @@ const CalorieCalculator = () => {
               <select
                 name="sex"
                 className="w-fit overflow-hidden rounded-2xl px-2 py-1"
+                value={formValues?.sex}
+                onChange={handleChange}
               >
-                <option>Male</option>
-                <option>Female</option>
+                <option value={"male"}>male</option>
+                <option value={"female"}>female</option>
               </select>
             </div>
             <div className="flex w-full justify-center">

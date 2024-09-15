@@ -14,7 +14,7 @@ const CalorieList = () => {
   }
   const { userCalorie } = calorieContext;
   return (
-    <div className="flex w-full justify-center">
+    <div className="mb-10 flex w-full justify-center">
       <div className="w-5/6 overflow-hidden overflow-x-auto rounded-2xl shadow-md lg:w-3/5">
         <table className="w-full min-w-56 table-auto text-left">
           <thead>

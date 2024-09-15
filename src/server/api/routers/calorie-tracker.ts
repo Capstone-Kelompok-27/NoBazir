@@ -125,9 +125,10 @@ export const calorieRouter = createTRPCRouter({
         const userCalorieData = await ctx.db
           .select({ id: userCalorie.id })
           .from(userCalorie)
-          .where(eq(userCalorie.userId, userId));
+          .where(eq(userCalorie.userId, userId))
+          .then((res) => res[0]);
 
-        if (userCalorieData) {
+        if (userCalorieData?.id) {
           throw new TRPCError({
             code: "CONFLICT",
             message: "User calorie needs already created!",
