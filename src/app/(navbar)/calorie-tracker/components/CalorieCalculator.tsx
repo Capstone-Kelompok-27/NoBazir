@@ -37,7 +37,7 @@ const CalorieCalculator = () => {
       </div>
 
       {modalClicked && (
-        <div className="fixed top-0 flex h-screen w-screen items-center justify-center bg-gray-100/50">
+        <div className="fixed top-0 flex h-screen w-screen items-center justify-center bg-gray-400/50">
           <form
             className="relative flex w-4/5 flex-col gap-3 rounded-xl bg-[#A5BE00] p-6 shadow-md lg:w-1/2"
             onSubmit={handleSubmit}
@@ -84,7 +84,10 @@ const CalorieCalculator = () => {
             </div>
             <div className="flex w-full flex-shrink items-center gap-3">
               <div className="min-w-[56px] font-semibold text-white">Sex:</div>
-              <select className="w-fit overflow-hidden rounded-2xl px-2 py-1">
+              <select
+                name="sex"
+                className="w-fit overflow-hidden rounded-2xl px-2 py-1"
+              >
                 <option>Male</option>
                 <option>Female</option>
               </select>

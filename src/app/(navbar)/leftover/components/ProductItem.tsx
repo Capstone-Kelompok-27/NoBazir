@@ -39,8 +39,8 @@ const ProductItem: React.FC<FoodCatalogProps> = (props) => {
   };
 
   return (
-    <div className="max-w-1/3 w-[425px]">
-      <div className="m-7 flex flex-col gap-2 rounded-2xl bg-white p-5">
+    <div className="w-[370px] lg:w-[425px]">
+      <div className="m-3 flex flex-col gap-2 rounded-2xl bg-white p-2 lg:m-7 lg:p-5">
         <div className="relative h-36 overflow-hidden rounded-t-2xl">
           <Image
             src={
@@ -57,14 +57,14 @@ const ProductItem: React.FC<FoodCatalogProps> = (props) => {
           {props.productName}
         </div>
         <div className="flex flex-row">
-          <div className=" mx-1 border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
-          {props.productType}
+          <div className="mx-1 flex items-center justify-center rounded-full border-2 border-[#679436] px-2 text-center font-montserrat font-semibold text-[#679436]">
+            {props.productType}
           </div>
-          <div className=" mx-1 border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
-          {props.stock} item
+          <div className="mx-1 flex items-center justify-center rounded-full border-2 border-[#679436] px-2 text-center font-montserrat font-semibold text-[#679436]">
+            {props.stock} item
           </div>
-          <div className=" mx-1  border-2 rounded-full px-2 text-center text-[#679436] font-montserrat font-semibold border-[#679436]">
-          {props.totalCalorie} kcal
+          <div className="mx-1 flex items-center justify-center rounded-full border-2 border-[#679436] px-2 text-center font-montserrat font-semibold text-[#679436]">
+            {props.totalCalorie} kcal
           </div>
         </div>
         <div className="mx-2 font-source-sans text-[#679436]">

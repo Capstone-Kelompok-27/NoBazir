@@ -210,7 +210,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex h-20 w-1/2 items-center justify-center gap-5">
+    <div className="flex h-20 w-10/12 items-center justify-center gap-5">
       <div className="relative flex w-4/5 items-center justify-between">
         <input
           type="text"
