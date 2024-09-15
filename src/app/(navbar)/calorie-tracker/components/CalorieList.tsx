@@ -25,7 +25,7 @@ const CalorieList = () => {
                   className="border-b border-slate-200 bg-gray-200 p-4 text-slate-600"
                 >
                   {head}
-                </th>
+                </th> 
               ))}
             </tr>
           </thead>

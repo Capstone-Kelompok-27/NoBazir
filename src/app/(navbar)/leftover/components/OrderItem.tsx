@@ -46,10 +46,10 @@ const OrderItem = () => {
   };
 
   return (
-    <div className="max-w-screen relative mt-28 flex w-full flex-col pl-10">
+    <div className="max-w-screen relative mb-10 mt-28 flex w-full flex-col pl-10">
       <div className="text-2xl font-bold text-[#679436]">Shopping Cart</div>
-      <div className="flex gap-5">
-        <div className="flex w-1/2 items-start justify-center">
+      <div className="flex flex-col gap-5 lg:flex-row">
+        <div className="flex w-full items-center justify-center lg:w-1/2 lg:items-start">
           <div className="relative flex w-full items-center justify-center gap-3 px-5 py-6">
             <div className="flex w-2/6 justify-center overflow-hidden rounded-xl py-5">
               <Image
@@ -98,7 +98,7 @@ const OrderItem = () => {
             <div className="absolute bottom-8 w-5/6 border border-[#679436]/50"></div>
           </div>
         </div>
-        <div className="mr-12 flex w-1/2 flex-col items-center justify-center gap-5">
+        <div className="mr-12 flex w-full flex-col items-center justify-center gap-5 lg:w-1/2">
           <div className="flex w-4/5 flex-col items-start justify-center rounded-xl p-3 ring-2 ring-[#679436]">
             <div className="text-xl font-semibold text-[#A5BE00]">
               Delivery to
