@@ -26,6 +26,16 @@ const Page = () => {
 
   const ourTeam = [
     {
+      path: "/navbar/ourteam/apple.jpg",
+      name: "Zheannetta Apple",
+      role: "Project Manager",
+    },
+    {
+      path: "/navbar/ourteam/andi.jpg",
+      name: "Andi Farhan Hidayat",
+      role: "Software Engineer",
+    },
+    {
       path: "/navbar/ourteam/naura.jpg",
       name: "Naura Ayurachmani",
       role: "UI/UX Designer",
@@ -106,7 +116,7 @@ const Page = () => {
         Meet Our Team
       </div>
 
-      <div className="hidden lg:flex flex-col items-center">
+      <div className="hidden flex-col items-center lg:flex">
         <div className="flex flex-row">
           <div className="mx-2 my-2 flex h-auto w-72 flex-col items-center rounded-2xl border-2 border-gray-500 bg-[#679436] bg-opacity-[0.28]">
             <img
@@ -142,19 +152,25 @@ const Page = () => {
 
         <div className="mx-6 mb-10 mt-2 flex items-center justify-center">
           <div className="mt-2 grid grid-cols-3">
-            {ourTeam.map((item, index) => (
-              <OurTeam
-                key={index}
-                foto={item.path}
-                name={item.name}
-                role={item.role}
-              />
-            ))}
+            {ourTeam.map(
+              (item, index) =>
+                !(
+                  item.name === "Zheannetta Apple" ||
+                  item.name === "Andi Farhan Hidayat"
+                ) && (
+                  <OurTeam
+                    key={index}
+                    foto={item.path}
+                    name={item.name}
+                    role={item.role}
+                  />
+                ),
+            )}
           </div>
         </div>
       </div>
 
-      <div className="lg:hidden mx-6 mb-10 mt-2 flex justify-center">
+      <div className="mx-6 mb-10 mt-2 flex justify-center lg:hidden">
         <div className="grid grid-cols-1 gap-6">
           {ourTeam.map((item, index) => (
             <OurTeam
